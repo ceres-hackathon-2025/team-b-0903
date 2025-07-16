@@ -1,3 +1,14 @@
+
+## larave hard
+
+hardをインストールして、php, composer, nodeのインストールをする
+https://herd.laravel.com/
+
+## git
+
+下記のURLからexeのインストーラーをダウンロードして、gitのインストールを行う
+https://git-scm.com/
+
 ## 起動方法
 
 ```sh
@@ -12,6 +23,9 @@ Run the "diagnose" command to get more detailed diagnostics output.
 
 # 必要パッケージのインストール
 $ composer i
+
+# .envファイルをコピー
+$ cp .env.example .env
 
 # アプリケーションの起動
 $ php -S localhost:8000 -t public
