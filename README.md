@@ -15,6 +15,9 @@ https://git-scm.com/
 # このrepostioryをclone
 $ git clone XXXXX
 
+# cloneしたレポジトリに移動
+$ cd XXXXX
+
 # phpとcomposerがインストールされていることを確認
 $ composer -V
 Composer version 2.8.10 2025-07-10 19:08:33
@@ -27,6 +30,13 @@ $ composer i
 # .envファイルをコピー
 $ cp .env.example .env
 
+# アプリケーション固有のkeyを発行
+$ php artisan key:generate
+
+# マイグレーションの実行（すべてyesでOK）
+$ php artisan migrate
+
 # アプリケーションの起動
+# Let's get startedと表示が出ればOK
 $ php -S localhost:8000 -t public
 ```
