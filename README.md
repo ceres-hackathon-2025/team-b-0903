@@ -49,5 +49,5 @@ $ php artisan migrate
 
 # アプリケーションの起動
 # Let's get startedと表示が出ればOK
-$ php -S localhost:8000 -t public
+$ php artisan serve
 ```
