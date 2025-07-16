@@ -8,7 +8,7 @@ https://code.visualstudio.com/
 
 下記の拡張機能も同時に入れる
 - PHP Intelephense: https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client
-- SQLite          : https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite
+- SQLite          : https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer
 
 ### larave herd
 
