@@ -1,10 +1,18 @@
 
-## larave hard
+## 各種パッケージのインストール
 
-hardをインストールして、php, composer, nodeのインストールをする
+### VSCode
+
+下記のURLからexeのインストーラーをダウンロードして、VSCodeのインストールを行う
+https://code.visualstudio.com/
+
+### larave herd
+
+herd経由でphp, composer, nodeのインストールをする
+
 https://herd.laravel.com/
 
-## git
+### git
 
 下記のURLからexeのインストーラーをダウンロードして、gitのインストールを行う
 https://git-scm.com/
