@@ -3,18 +3,21 @@
 
 ### VSCode
 
-下記のURLからexeのインストーラーをダウンロードして、VSCodeのインストールを行う
+下記のURLからexeのインストーラーをダウンロードして、VSCodeのインストールを行う  
 https://code.visualstudio.com/
+
+下記の拡張機能も同時に入れる
+- PHP Intelephense: https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client
+- SQLite          : https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite
 
 ### larave herd
 
-herd経由でphp, composer, nodeのインストールをする
-
+herd経由でphp, composer, nodeのインストールをする  
 https://herd.laravel.com/
 
 ### git
 
-下記のURLからexeのインストーラーをダウンロードして、gitのインストールを行う
+下記のURLからexeのインストーラーをダウンロードして、gitのインストールを行う  
 https://git-scm.com/
 
 ## 起動方法
