@@ -20,6 +20,22 @@ https://herd.laravel.com/
 下記のURLからexeのインストーラーをダウンロードして、gitのインストールを行う  
 https://git-scm.com/
 
+
+## gitの認証
+
+git-credential-managerが既に入っていることを確認する
+
+```sh
+$ git-credential-manager version
+```
+
+git-credential-manager経由での認証にする
+```sh
+$ git config --global credential.helper manager-core
+```
+
+git cloneなど、リモートブランチへの操作を行う
+
 ## 起動方法
 
 ```sh
