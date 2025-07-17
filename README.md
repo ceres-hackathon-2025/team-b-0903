@@ -35,6 +35,12 @@ git-credential-manager経由での認証にする
 $ git config --global credential.helper manager-core
 ```
 
+自分の名前を認証する
+```sh
+$ git config --global user.email "hi-tamai@ceres-inc.jp"
+$ git config --global user.name "hi-tamai"
+```
+
 git cloneなど、リモートブランチへの操作を行う
 
 ## 起動方法
