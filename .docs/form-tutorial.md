@@ -146,12 +146,12 @@ Route::post('/memos', [MemoController::class, 'store'])->name('memos.store');
         
         <div class="form-group">
             <label for="title">タイトル:</label>
-            <input type="text" name="title" id="title" required>
+            <input type="text" name="title" id="title" value="{{ old('title') }}" required>
         </div>
         
         <div class="form-group">
             <label for="content">内容:</label>
-            <textarea name="content" id="content" rows="5" required></textarea>
+            <textarea name="content" id="content" rows="5" required>{{ old('content') }}</textarea>
         </div>
         
         <button type="submit">メモを保存</button>
@@ -234,7 +234,7 @@ public function store(Request $request)
 }
 ```
 
-### エラー表示
+### エラー表示とold関数
 ```html
 <!-- resources/views/memos/create.blade.php のフォーム上部に追加 -->
 @if ($errors->any())
@@ -246,7 +246,23 @@ public function store(Request $request)
         </ul>
     </div>
 @endif
+
+<!-- フォーム入力欄にold()関数を追加 -->
+<div class="form-group">
+    <label for="title">タイトル:</label>
+    <input type="text" name="title" id="title" value="{{ old('title') }}" required>
+</div>
+
+<div class="form-group">
+    <label for="content">内容:</label>
+    <textarea name="content" id="content" rows="5" required>{{ old('content') }}</textarea>
+</div>
 ```
+
+**old()関数の効果:**
+- バリデーションエラー時に入力した値を保持
+- ユーザーが再入力する手間を省く
+- フォームの使いやすさが大幅向上
 
 ## 🎯 動作確認手順
 
