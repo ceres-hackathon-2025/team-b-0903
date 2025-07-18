@@ -56,6 +56,12 @@ Route::get('/about', function () {
 php artisan make:controller AboutController
 ```
 
+**CRUD操作が必要な場合は`-r`オプション推奨:**
+```bash
+php artisan make:controller MemoController -r
+```
+→ index, create, store, show, edit, update, destroyメソッドが自動生成
+
 ### 2. 処理を書く
 ```php
 // app/Http/Controllers/AboutController.php に追加

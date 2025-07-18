@@ -66,8 +66,9 @@ class Memo extends Model
 
 ### 1. コントローラーを作る
 ```bash
-php artisan make:controller MemoController
+php artisan make:controller MemoController -r
 ```
+**`-r`オプション:** CRUD操作メソッド（index, create, store, show, edit, update, destroy）を自動生成
 
 ### 2. 処理を書く
 ```php
