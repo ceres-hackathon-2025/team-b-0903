@@ -11,7 +11,9 @@ $reviews = [
         'content' => 'スタッフの対応が非常に丁寧で、料理も美味しく大満足でした。また利用したいと思います。特にパスタが絶品でした！',
         'author' => '田中太郎さん',
         'date' => '2024年3月15日',
-        'image' => './img/test02.jpg'
+        'image' => './img/test02.jpg',
+        'count_favorites' => 34,
+        'user_like' => false
     ],
     [
         'title' => '雰囲気が良くてデートにおすすめ',
@@ -20,6 +22,8 @@ $reviews = [
         'author' => '佐藤花子さん',
         'date' => '2024年3月12日',
         'image' => './img/test03.jpg'
+        , 'count_favorites' => 21
+        , 'user_like' => false
     ],
     [
         'title' => '家族連れにも安心',
@@ -28,6 +32,8 @@ $reviews = [
         'author' => '鈴木一郎さん',
         'date' => '2024年3月10日',
         'image' => './img/test04.jpg'
+        , 'count_favorites' => 15
+        , 'user_like' => false
     ],
     [
         'title' => 'コスパが良い！',
@@ -36,6 +42,8 @@ $reviews = [
         'author' => '山田次郎さん',
         'date' => '2024年3月8日',
         'image' => './img/test05.jpg'
+        , 'count_favorites' => 8
+        , 'user_like' => false
     ]
 ];
 ?>
@@ -48,6 +56,7 @@ $reviews = [
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    @include('partials.header')
     <div class="container">
         <!-- 大きな見出し - 上部中央 -->
         <header class="text-center my-4">
@@ -87,6 +96,18 @@ $reviews = [
                                 </div>
                                 <!-- レビュー内容を下に配置 -->
                                 <p class="card-text"><?= htmlspecialchars($review['content']) ?></p>
+                                    <!-- ハート形ボタンとお気に入り数 -->
+                                    <div class="d-flex align-items-center mb-2">
+                                            <button class="btn btn-sm me-2 like-btn" 
+                                                    style="border-radius:50%; padding:0; width:32px; height:32px;"
+                                                    data-liked="<?= $review['user_like'] ? 'true' : 'false' ?>"
+                                                    data-count="<?= $review['count_favorites'] ?>">
+                                                <img src="<?= $review['user_like'] ? '/images/heart_red.png' : '/images/heart_white.png' ?>" 
+                                                     alt="いいね" 
+                                                     style="width:32px; height:32px; object-fit:contain;">
+                                            </button>
+                                        <span class="text-muted fs-6">いいね <span class="like-count"><?= htmlspecialchars($review['count_favorites']) ?></span></span>
+                                    </div>
                                 <footer class="text-muted d-flex justify-content-between mt-2">
                                     <small>投稿者: <?= htmlspecialchars($review['author']) ?></small>
                                     <small>投稿日: <?= htmlspecialchars($review['date']) ?></small>
@@ -128,5 +149,6 @@ $reviews = [
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/favo.js"></script>
 </body>
 </html>
