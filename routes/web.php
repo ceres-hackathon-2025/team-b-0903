@@ -2,22 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // 投稿作成フォーム
 Route::get('/create', function () {
     return view('create');
 });
 
+// 場所一覧
 Route::get('/places', function () {
     return view('places');
 });
 
-Route::get('/posts', function () {
-    return view('posts');
+// ホーム画面
+Route::get('/', function () {
+    return view('home');
 });
+
 // // 投稿(Post)のルーティング
 // Route::prefix('posts')->group(function () {
 //     // 場所一覧
