@@ -11,7 +11,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+    // 投稿一覧表示
+    $posts = \App\Models\Post::with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+    return view('posts', compact('posts'));
     }
 
     /**
@@ -19,7 +21,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+    // 投稿作成フォーム表示
+    return view('create');
     }
 
     /**
@@ -27,7 +30,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 投稿保存＋画像アップロード
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'place_id' => 'required|exists:places,id',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'recommend' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $validated['like_count'] = 0;
+
+        // 画像保存処理
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validated['image_path'] = $imagePath;
+        }
+
+        $post = \App\Models\Post::create($validated);
+        return redirect()->route('posts.show', $post->id)->with('success', '投稿を作成しました');
     }
 
     /**
@@ -35,7 +56,9 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+    // 投稿詳細表示
+    $post = \App\Models\Post::with(['user', 'place', 'like'])->findOrFail($id);
+    return view('posts', compact('post'));
     }
 
     /**
@@ -43,7 +66,9 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+    // 投稿編集フォーム表示
+    $post = \App\Models\Post::findOrFail($id);
+    return view('create', compact('post'));
     }
 
     /**
@@ -51,7 +76,15 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // 投稿更新
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'recommend' => 'nullable|boolean',
+        ]);
+        $post = \App\Models\Post::findOrFail($id);
+        $post->update($validated);
+        return redirect()->route('posts.show', $post->id)->with('success', '投稿を更新しました');
     }
 
     /**
@@ -59,6 +92,28 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // 投稿削除
+        $post = \App\Models\Post::findOrFail($id);
+        $post->delete();
+        return redirect()->route('posts.index')->with('success', '投稿を削除しました');
+    }
+
+    /**
+     * 投稿にいいねする
+     */
+    public function like(Request $request, string $id)
+    {
+        $post = \App\Models\Post::findOrFail($id);
+        $userId = $request->user()->id;
+        // すでにいいねしていないか確認
+        $alreadyLiked = \App\Models\Like::where('post_id', $id)->where('user_id', $userId)->exists();
+        if (!$alreadyLiked) {
+            \App\Models\Like::create([
+                'post_id' => $id,
+                'user_id' => $userId,
+            ]);
+            $post->increment('like_count');
+        }
+        return redirect()->route('posts.show', $id)->with('success', 'いいねしました');
     }
 }
