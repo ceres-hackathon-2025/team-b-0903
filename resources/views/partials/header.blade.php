@@ -1,16 +1,15 @@
 <header class="moddy-header" role="banner">
   <div class="moddy-wrap">
+
     <!-- brand -->
-    <a class="moddy-brand" href="#">
+    <a class="moddy-brand" href="{{ url('/') }}" aria-label="moddy home">
     <img
         src="{{ asset('images/moddy_header.png') }}"
-        alt="moddy"
-        class="moddy-logo-img"
-        width="34" height="34"
+        srcset="{{ asset('images/moddy_header@2x.png') }} 2x, {{ asset('images/moddy_header@3x.png') }} 3x"
+        alt=""
+        class="moddy-logo-img moddy-logo--banner"   {{-- ← ここが重要！ --}}
         loading="eager" decoding="async"
     >
-    <span class="moddy-title">moddy</span>
-    <span class="moddy-badge">beta</span>
     </a>
 
     <!-- 食べログの検索ボックス風 “細枠コンテナ” に2項目 -->
@@ -49,25 +48,26 @@
   }
 
   /* brand */
-  .moddy-brand{
-    display: inline-flex; align-items: center; gap: .5rem;
-    color: var(--ink); text-decoration: none; font-weight: 800; letter-spacing:.02em;
-  }
-  /* .moddy-logo{
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 34px; height: 34px; border-radius: 10px;
-    color: var(--base-strong);
-    background: linear-gradient(180deg, var(--base), var(--base-strong));
-    box-shadow: 0 4px 12px rgba(var(--base-rgb), .45);
-  } */
+    :root {
+    --brand-size: 52px;          /* 48〜56pxあたりがヘッダーで映えます */
+    }
 
-  .moddy-logo-img{
-    width:34px; height:34px;
-    border-radius:10px;            /* 角丸は従来デザインに合わせて */
-    display:inline-block;
-    object-fit:contain;            /* 画像のはみ出し防止 */
-    object-position:center;
-    box-shadow:0 4px 12px rgba(var(--base-rgb), .45); /* 任意：従来の影を継承 */
+    .moddy-brand{
+    display: inline-flex;
+    align-items: center;
+    gap: 0;                       /* 画像だけなので余白ゼロ */
+    text-decoration: none;
+    line-height: 1;               /* 行間の余白を消す */
+    }
+
+    .moddy-logo-img{
+    width: var(--brand-size);
+    height: var(--brand-size);
+    border-radius: 12px;          /* 角丸（お好みで調整 or 0） */
+    display: block;               /* 画像下の隙間除去 */
+    object-fit: cover;            /* 画像のはみ出し防止 */
+    object-position: center;
+    box-shadow: 0 4px 12px rgba(var(--base-rgb), .45); /* 任意：以前の雰囲気を踏襲 */
     }
   .moddy-title{ font-size: 1.15rem }
   .moddy-badge{
