@@ -102,6 +102,8 @@ $places = [
     </style>
 </head>
 <body>
+     {{-- ヘッダー呼び出し --}}
+    @include('partials.header')
     <div class="container">
         <header class="my-4 text-center">
             <h1 class="display-4">場所一覧</h1>
