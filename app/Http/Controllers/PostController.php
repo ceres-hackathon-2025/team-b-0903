@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Place;
 
 class PostController extends Controller
 {
@@ -20,10 +21,11 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($place_id)
     {
-    // 投稿作成フォーム表示
-    return view('create');
+        // 投稿作成フォーム表示
+        $place_name = Place::where('id', $place_id)->value("name");
+        return view('create', compact('place_name', 'place_id'));
     }
 
     /**
@@ -37,7 +39,7 @@ class PostController extends Controller
             'place_id' => 'required|exists:places,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'recommend' => 'nullable|boolean',
+            'recommend' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validated['like_count'] = 0;
