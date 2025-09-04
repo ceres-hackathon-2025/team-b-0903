@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -12,7 +13,7 @@ class PostController extends Controller
     public function index()
     {
     // 投稿一覧表示
-    $posts = \App\Models\Post::with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+    $posts = Post::with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
     return view('posts', compact('posts'));
     }
 
@@ -47,7 +48,7 @@ class PostController extends Controller
             $validated['image_path'] = $imagePath;
         }
 
-        $post = \App\Models\Post::create($validated);
+    $post = Post::create($validated);
         return redirect()->route('posts.show', $post->id)->with('success', '投稿を作成しました');
     }
 
@@ -57,7 +58,7 @@ class PostController extends Controller
     public function show(string $id)
     {
     // 投稿詳細表示
-    $post = \App\Models\Post::with(['user', 'place', 'like'])->findOrFail($id);
+    $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
     return view('posts', compact('post'));
     }
 
@@ -67,7 +68,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
     // 投稿編集フォーム表示
-    $post = \App\Models\Post::findOrFail($id);
+    $post = Post::findOrFail($id);
     return view('create', compact('post'));
     }
 
@@ -82,7 +83,7 @@ class PostController extends Controller
             'content' => 'required|string',
             'recommend' => 'nullable|boolean',
         ]);
-        $post = \App\Models\Post::findOrFail($id);
+    $post = Post::findOrFail($id);
         $post->update($validated);
         return redirect()->route('posts.show', $post->id)->with('success', '投稿を更新しました');
     }
@@ -93,7 +94,7 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         // 投稿削除
-        $post = \App\Models\Post::findOrFail($id);
+    $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->route('posts.index')->with('success', '投稿を削除しました');
     }
