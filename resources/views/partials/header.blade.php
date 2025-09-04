@@ -12,11 +12,11 @@
     </a>
 
     <!-- 食べログの検索ボックス風 “細枠コンテナ” に2項目 -->
-    <nav class="moddy-toolbar" aria-label="primary">
+    <!-- <nav class="moddy-toolbar" aria-label="primary">
       <a class="moddy-item is-active" href="#" data-key="review">口コミを投稿</a>
       <span class="moddy-sep" aria-hidden="true"></span>
       <a class="moddy-item" href="#" data-key="spot">スポットを探す</a>
-    </nav>
+    </nav> -->
   </div>
 </header>
 

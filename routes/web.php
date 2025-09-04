@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+require __DIR__.'/auth.php';
+
 
 Route::get('/create/{place_id}', [PostController::class, "create"] )->name('posts.create');
 Route::post('/', [PostController::class, "store"] )->name('posts.store');
@@ -23,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
 
 // 投稿一覧
 Route::get('/posts', function () {
@@ -48,6 +50,7 @@ Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.showBy
 
 // 投稿詳細から投稿者だけが投稿編集
 Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->middleware('can:update,post')->name('posts.edit');
+
 
 
 
