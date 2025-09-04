@@ -7,6 +7,13 @@ use App\Models\Post;
 
 class PlaceController extends Controller
 {
+    // 指定した場所の投稿おすすめ度の平均を返す
+    public function recommendAverageByPlace($place_id)
+    {
+        $average = Post::where('place_id', $place_id)->avg('recommend');
+        return response()->json(['recommend_average' => $average]);
+    }
+
     // 指定したplaceの投稿数を返す
     public function postCount($place_id)
     {
@@ -14,10 +21,5 @@ class PlaceController extends Controller
         return response()->json(['post_count' => $count]);
     }
 
-    // 全投稿のおすすめ度の平均を返す
-    public function recommendAverage()
-    {
-        $average = Post::avg('recommend');
-        return response()->json(['recommend_average' => $average]);
-    }
+ 
 }
