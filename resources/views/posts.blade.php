@@ -3,6 +3,41 @@ $name = '東大寺';
 $img_id = './img/test01.jpg';
 $average_rating = 4.2;
 $total_reviews = 247;
+
+$reviews = [
+    [
+        'title' => '最高のサービスでした！',
+        'rating' => '★★★★★',
+        'content' => 'スタッフの対応が非常に丁寧で、料理も美味しく大満足でした。また利用したいと思います。特にパスタが絶品でした！',
+        'author' => '田中太郎さん',
+        'date' => '2024年3月15日',
+        'image' => './img/test02.jpg'
+    ],
+    [
+        'title' => '雰囲気が良くてデートにおすすめ',
+        'rating' => '★★★★☆',
+        'content' => '落ち着いた雰囲気で、カップルでの利用にぴったりでした。少し価格は高めですが、その分サービスと料理の質は良かったです。',
+        'author' => '佐藤花子さん',
+        'date' => '2024年3月12日',
+        'image' => './img/test03.jpg'
+    ],
+    [
+        'title' => '家族連れにも安心',
+        'rating' => '★★★★★',
+        'content' => '子供連れで訪問しましたが、キッズメニューも充実していて、子供も大喜びでした。スタッフの方も子供に優しく対応してくれました。',
+        'author' => '鈴木一郎さん',
+        'date' => '2024年3月10日',
+        'image' => './img/test04.jpg'
+    ],
+    [
+        'title' => 'コスパが良い！',
+        'rating' => '★★★☆☆',
+        'content' => '価格の割には量も多く、味も普通に美味しかったです。特別感はありませんが、日常使いには十分だと思います。',
+        'author' => '山田次郎さん',
+        'date' => '2024年3月8日',
+        'image' => './img/test05.jpg'
+    ]
+];
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -34,89 +69,31 @@ $total_reviews = 247;
                     <!-- 口コミ一覧 -->
                     <section>
                         <h2 class="h4 mb-3">投稿一覧</h2>
-                    <article class="card mb-3">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h2 class="card-title h5">最高のサービスでした！</h2>
-                                <div class="text-warning">
-                                    ★★★★★
+                        <?php foreach ($reviews as $review): ?>
+                        <article class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h2 class="card-title h5"><?= htmlspecialchars($review['title']) ?></h2>
+                                    <div class="text-warning">
+                                        <?= htmlspecialchars($review['rating']) ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- 画像を上に配置 -->
-                            <div class="mb-3">
-                                <img src="./img/test02.jpg" class="img-fluid rounded w-100" style="height: 200px; object-fit: cover;" alt="レビュー画像">
-                            </div>
-                            <!-- レビュー内容を下に配置 -->
-                            <p class="card-text">スタッフの対応が非常に丁寧で、料理も美味しく大満足でした。また利用したいと思います。特にパスタが絶品でした！</p>
-                            <footer class="text-muted d-flex justify-content-between mt-2">
-                                <small>投稿者: 田中太郎さん</small>
-                                <small>投稿日: 2024年3月15日</small>
-                            </footer>
-                        </div>
-                    </article>
-
-                    <article class="card mb-3">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h2 class="card-title h5">雰囲気が良くてデートにおすすめ</h2>
-                                <div class="text-warning">
-                                    ★★★★☆
+                                <!-- 画像を上に配置 -->
+                                <div class="mb-3">
+                                    <img src="<?= htmlspecialchars($review['image']) ?>" 
+                                         class="img-fluid rounded w-100" 
+                                         style="height: 200px; object-fit: cover;" 
+                                         alt="レビュー画像">
                                 </div>
+                                <!-- レビュー内容を下に配置 -->
+                                <p class="card-text"><?= htmlspecialchars($review['content']) ?></p>
+                                <footer class="text-muted d-flex justify-content-between mt-2">
+                                    <small>投稿者: <?= htmlspecialchars($review['author']) ?></small>
+                                    <small>投稿日: <?= htmlspecialchars($review['date']) ?></small>
+                                </footer>
                             </div>
-                            <!-- 画像を上に配置 -->
-                            <div class="mb-3">
-                                <img src="./img/test03.jpg" class="img-fluid rounded w-100" style="height: 200px; object-fit: cover;" alt="レビュー画像">
-                            </div>
-                            <!-- レビュー内容を下に配置 -->
-                            <p class="card-text">落ち着いた雰囲気で、カップルでの利用にぴったりでした。少し価格は高めですが、その分サービスと料理の質は良かったです。</p>
-                            <footer class="text-muted d-flex justify-content-between mt-2">
-                                <small>投稿者: 佐藤花子さん</small>
-                                <small>投稿日: 2024年3月12日</small>
-                            </footer>
-                        </div>
-                    </article>
-
-                    <article class="card mb-3">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h2 class="card-title h5">家族連れにも安心</h2>
-                                <div class="text-warning">
-                                    ★★★★★
-                                </div>
-                            </div>
-                            <!-- 画像を上に配置 -->
-                            <div class="mb-3">
-                                <img src="./img/test04.jpg" class="img-fluid rounded w-100" style="height: 200px; object-fit: cover;" alt="レビュー画像">
-                            </div>
-                            <!-- レビュー内容を下に配置 -->
-                            <p class="card-text">子供連れで訪問しましたが、キッズメニューも充実していて、子供も大喜びでした。スタッフの方も子供に優しく対応してくれました。</p>
-                            <footer class="text-muted d-flex justify-content-between mt-2">
-                                <small>投稿者: 鈴木一郎さん</small>
-                                <small>投稿日: 2024年3月10日</small>
-                            </footer>
-                        </div>
-                    </article>
-
-                    <article class="card mb-3">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h2 class="card-title h5">コスパが良い！</h2>
-                                <div class="text-warning">
-                                    ★★★☆☆
-                                </div>
-                            </div>
-                            <!-- 画像を上に配置 -->
-                            <div class="mb-3">
-                                <img src="./img/test05.jpg" class="img-fluid rounded w-100" style="height: 200px; object-fit: cover;" alt="レビュー画像">
-                            </div>
-                            <!-- レビュー内容を下に配置 -->
-                            <p class="card-text">価格の割には量も多く、味も普通に美味しかったです。特別感はありませんが、日常使いには十分だと思います。</p>
-                            <footer class="text-muted d-flex justify-content-between mt-2">
-                                <small>投稿者: 山田次郎さん</small>
-                                <small>投稿日: 2024年3月8日</small>
-                            </footer>
-                        </div>
-                    </article>
+                        </article>
+                        <?php endforeach; ?>
                     </section>
                 </div>
                 
