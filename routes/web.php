@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 // 投稿作成フォーム
@@ -20,6 +22,8 @@ Route::get('/', function () {
 Route::get('/posts', function () {
     return view('posts');
 });
+
+Route::get('/post/{id}', [PostController::class, 'show']);
 
 // // 投稿(Post)のルーティング
 // Route::prefix('posts')->group(function () {
