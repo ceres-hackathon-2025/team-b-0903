@@ -20,7 +20,7 @@ Route::get('/prefectures/{prefecture}', [PlaceController::class, 'indexByPrefect
 Route::get('/places/{place}', [PostController::class, 'indexByPlace'])->name('posts.byPlaceWithPrefecture');
 
 // 投稿作成フォーム
-Route::get('/create/{place}', function ($place) {
+Route::get('/{place}/create', function ($place) {
     return view('create', ['place_id' => $place]);
 });
 
