@@ -1,3 +1,15 @@
+<?php
+$post = [
+    'title' => '最高のサービスでした！',
+    'recommend' => '★★★★★',
+    'text' => 'スタッフの対応が非常に丁寧で、料理も美味しく大満足でした。また利用したいと思います。特にパスタが絶品でした！',
+    'user' => '田中太郎さん',
+    'place' => '東大寺',
+    'date' => '2024年3月15日',
+    'image_path' => './img/test02.jpg',
+    'count_like' => 34,
+]
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -188,9 +200,9 @@
     <!-- ページヘッダー -->
     <header class="header">
       <h1 class="page-title">投稿詳細</h1>
-      <nav class="breadcrumb">
+      <!-- <nav class="breadcrumb">
         <a href="/">ホーム</a> > <a href="/places">場所一覧</a> > 投稿詳細
-      </nav>
+      </nav> -->
     </header>
 
     <!-- メインコンテンツ -->
@@ -200,22 +212,21 @@
         <article class="post-card">
           <!-- 投稿ヘッダー -->
           <header class="post-header">
-            <h2 class="post-title">最高のサービスでした！</h2>
+            <h2 class="post-title"><?= htmlspecialchars($post['title']) ?></h2>
             <div class="post-meta">
-              <span class="rating">★★★★★</span>
-              <span>東大寺</span>
-              <span class="tag">付き合う前</span>
+              <span class="rating"><?= htmlspecialchars($post['recommend']) ?></span>
+              <span><?= htmlspecialchars($post['place']) ?></span>
+              <!-- <span class="tag">付き合う前</span> -->
             </div>
           </header>
 
           <!-- 投稿画像 -->
-          <img src="./img/test02.jpg" alt="投稿画像" class="post-image">
+          <img src="<?= htmlspecialchars($post['image_path']) ?>" alt="投稿画像" class="post-image">
 
           <!-- 投稿内容 -->
           <div class="post-content">
             <p class="post-text">
-              スタッフの対応が非常に丁寧で、料理も美味しく大満足でした。また利用したいと思います。特にパスタが絶品でした！
-              古都奈良の雰囲気を感じながら、ゆったりとした時間を過ごすことができました。
+              <?= htmlspecialchars($post['text']) ?>
             </p>
           </div>
 
@@ -224,27 +235,25 @@
             <button class="like-btn" data-liked="false" data-count="34">
               <img src="/images/heart_white.png" alt="いいね" style="width:24px; height:24px;">
             </button>
-            <span class="like-count">いいね <span class="like-count-num">34</span>件</span>
+            <span class="like-count">いいね <span class="like-count-num"><?= htmlspecialchars($post['count_like']) ?></span>件</span>
           </div>
 
           <!-- 投稿フッター -->
           <footer class="post-footer">
-            <span>投稿者: 田中太郎さん</span>
-            <span>投稿日: 2024年3月15日</span>
+            <span>投稿者: <?= htmlspecialchars($post['user']) ?></span>
+            <span>投稿日: <?= htmlspecialchars($post['date']) ?></span>
           </footer>
         </article>
       </main>
 
-      <!-- サイドバー -->
+      <!--
       <aside class="sidebar">
-        <!-- 評価統計 -->
         <div class="stats-card">
           <div class="stats-rating">★4.2</div>
           <h3 class="stats-label">平均評価</h3>
           <p class="stats-count">247件のレビュー</p>
         </div>
 
-        <!-- アクション -->
         <div class="action-card">
           <h3 class="action-title">この場所について</h3>
           <button class="btn" type="button">詳細を見る</button>
@@ -254,7 +263,7 @@
           <h3 class="action-title">レビューを投稿</h3>
           <button class="btn" type="button">レビューを書く</button>
         </div>
-      </aside>
+      </aside> -->
     </div>
   </div>
 
