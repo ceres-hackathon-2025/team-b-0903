@@ -50,14 +50,9 @@ $post = [
 
     /* メインコンテンツエリア */
     .main-content{
-      display: grid;
-      gap: 1.5rem;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 768px){
-      .main-content{
-        grid-template-columns: 2fr 1fr;
-      }
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 1rem;
     }
 
     /* 投稿詳細カード */
@@ -205,7 +200,6 @@ $post = [
       </nav> -->
     </header>
 
-    <!-- メインコンテンツ -->
     <div class="main-content">
       <!-- 投稿詳細 -->
       <main>
@@ -245,25 +239,6 @@ $post = [
           </footer>
         </article>
       </main>
-
-      <!--
-      <aside class="sidebar">
-        <div class="stats-card">
-          <div class="stats-rating">★4.2</div>
-          <h3 class="stats-label">平均評価</h3>
-          <p class="stats-count">247件のレビュー</p>
-        </div>
-
-        <div class="action-card">
-          <h3 class="action-title">この場所について</h3>
-          <button class="btn" type="button">詳細を見る</button>
-        </div>
-
-        <div class="action-card">
-          <h3 class="action-title">レビューを投稿</h3>
-          <button class="btn" type="button">レビューを書く</button>
-        </div>
-      </aside> -->
     </div>
   </div>
 
