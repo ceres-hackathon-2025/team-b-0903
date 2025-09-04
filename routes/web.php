@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/posts', function () {
+    return view('posts');
+});
+
 // // 投稿(Post)のルーティング
 // Route::prefix('posts')->group(function () {
 //     // 場所一覧

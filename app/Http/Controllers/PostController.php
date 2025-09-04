@@ -99,5 +99,17 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', '投稿を削除しました');
     }
 
-    
+
+    private function recommendAverageByPlace($place_id)
+    {
+        $average = Post::where('place_id', $place_id)->avg('recommend');
+        return $average;
+    }
+
+    // 指定したplaceの投稿数を返す
+    private function postCount($place_id)
+    {
+        $count = Post::where('place_id', $place_id)->count();
+        return $count;
+    }
 }
