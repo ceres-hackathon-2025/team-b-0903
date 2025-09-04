@@ -27,4 +27,10 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // リレーション例: Like
+    public function like()
+    {
+        return $this->hasMany(Like::class);
+    }
 }
