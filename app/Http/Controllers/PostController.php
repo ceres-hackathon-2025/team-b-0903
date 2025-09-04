@@ -3,28 +3,87 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+    // 観光地ごとの投稿作成フォーム表示
+    public function createByPlace($place)
+    {
+        // place_idを渡して投稿作成フォーム表示
+        return view('create', ['place_id' => $place]);
+    }
+
+
+
+    // 投稿編集（投稿者のみ）
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+    if (Auth::id() !== $post->user_id) {
+            abort(403);
+        }
+        return view('create', compact('post'));
+    }
+
+
+
+    // 投稿更新（編集完了後は投稿詳細へリダイレクト）
+    public function update(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+    if (Auth::id() !== $post->user_id) {
+            abort(403);
+        }
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'recommend' => 'nullable|boolean',
+        ]);
+        $post->update($validated);
+        return redirect()->route('posts.show', $post->id)->with('success', '投稿を更新しました');
+    }
+
+    /**タグごとの投稿一覧
+    public function indexByTag($tag)
+    {
+        $posts = Post::whereHas('tags', function($q) use ($tag) {
+            $q->where('name', $tag);
+        })->with(['user', 'place', 'like', 'tags'])->orderBy('created_at', 'desc')->get();
+        return view('posts', compact('posts', 'tag'));
+    }
      */
+
+
+    // 投稿一覧表示
     public function index()
     {
-    // 投稿一覧表示
     $posts = Post::with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
     return view('posts', compact('posts'));
     }
+        // 観光地ごとの投稿一覧（都道府県経由 or 直接）
+        // 観光地ごとの投稿一覧（直接）
+        public function indexByPlace($place)
+        {
+            $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+            return view('posts', [
+                'posts' => $posts,
+                'place_id' => $place
+            ]);
+        }
+        // 都道府県ごとの観光地→投稿一覧
+        public function indexByPlaceWithPrefecture($prefecture, $place)
+        {
+            $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+            return view('posts', [
+                'posts' => $posts,
+                'place_id' => $place,
+                'prefecture_id' => $prefecture
+            ]);
+        }
+    // ...existing code...
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-    // 投稿作成フォーム表示
-    return view('create');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -65,28 +124,10 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-    // 投稿編集フォーム表示
-    $post = Post::findOrFail($id);
-    return view('create', compact('post'));
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        // 投稿更新
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'recommend' => 'nullable|boolean',
-        ]);
-    $post = Post::findOrFail($id);
-        $post->update($validated);
-        return redirect()->route('posts.show', $post->id)->with('success', '投稿を更新しました');
-    }
 
     /**
      * Remove the specified resource from storage.
