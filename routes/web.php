@@ -17,7 +17,7 @@ Route::get('/places', function () {
 });
 
 // ホーム画面
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('home');
 });
 
