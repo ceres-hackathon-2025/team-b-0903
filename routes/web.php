@@ -15,6 +15,9 @@ Route::get('/places', function () {
     return view('places');
 });
 
+Route::get('/posts', function () {
+    return view('posts');
+});
 // // 投稿(Post)のルーティング
 // Route::prefix('posts')->group(function () {
 //     // 場所一覧
