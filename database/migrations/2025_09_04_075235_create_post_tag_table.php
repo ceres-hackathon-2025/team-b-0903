@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('post_tag', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id');
-            $table->foreignId('tag_id');
+            $table->foreignId('post_id')->constrained();
+            $table->foreignId('tag_id')->constrained();
             $table->timestamps();
 
             $table->unique(['post_id', 'tag_id']); // 同じタグの重複を防ぐ
