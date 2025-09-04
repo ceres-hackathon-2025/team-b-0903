@@ -98,22 +98,5 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', '投稿を削除しました');
     }
 
-    /**
-     * 投稿にいいねする
-     */
-    public function like(Request $request, string $id)
-    {
-        $post = \App\Models\Post::findOrFail($id);
-        $userId = $request->user()->id;
-        // すでにいいねしていないか確認
-        $alreadyLiked = \App\Models\Like::where('post_id', $id)->where('user_id', $userId)->exists();
-        if (!$alreadyLiked) {
-            \App\Models\Like::create([
-                'post_id' => $id,
-                'user_id' => $userId,
-            ]);
-            $post->increment('like_count');
-        }
-        return redirect()->route('posts.show', $id)->with('success', 'いいねしました');
-    }
+    
 }
