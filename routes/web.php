@@ -21,8 +21,8 @@ Route::get('/posts', function () {
     return view('posts');
 });
 
-Route::get('/post', function () {
-    return view('post');
+Route::get('/post/{id}', function ($id) {
+    return view('post', ['id' => $id]);
 });
 
 // // 投稿(Post)のルーティング
