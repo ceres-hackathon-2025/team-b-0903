@@ -61,8 +61,8 @@
     }
 
     .moddy-logo-img{
-    width: var(--brand-size);
-    height: var(--brand-size);
+    width: 120px;
+    /* height: var(--brand-size); */
     border-radius: 12px;          /* 角丸（お好みで調整 or 0） */
     display: block;               /* 画像下の隙間除去 */
     object-fit: cover;            /* 画像のはみ出し防止 */
