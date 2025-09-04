@@ -1,0 +1,37 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class PlaceSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $nara_places = [
+            '東大寺',
+            '奈良公園',
+            '春日大社',
+            '薬師寺',
+            '法隆寺',
+            '興福寺',
+            'ならまち',
+            '飛鳥寺',
+            '吉野山',
+        ];
+
+        foreach ($nara_places as $place_name) {
+            DB::table('places')->insert([
+                'name' => $place_name,
+                'prefecture_id' => 29,              // 奈良県のID（注意：prefecturesのSeederでIDが変わるなら確認して）
+                'recommend_average' => 3,           // 仮の平均値（必須なら）
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+}
