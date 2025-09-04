@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlaceController;
@@ -12,6 +14,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/posts', function () {
     return view('posts');
 });
+
 
 // 都道府県ごとの観光地一覧
 Route::get('/prefectures/{prefecture}', [PlaceController::class, 'indexByPrefecture'])->name('places.byPrefecture');
