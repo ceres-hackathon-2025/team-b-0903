@@ -1,55 +1,6 @@
 <?php
-$prefecture = '奈良県';
-$places = [
-    [
-        'name' => '東大寺',
-        'rating' => '★★★★★ (4.8)',
-        'tag' => '付き合う前',
-        'image_id' => '01',
-        'link' => '#',
-        'countreviews' => 1200
-    ],
-    [
-        'name' => '奈良公園',
-        'rating' => '★★★★☆ (4.6)',
-        'tag' => '#付き合った後',
-        'image_id' => '02',
-        'link' => '#',
-        'countreviews' => 980
-    ],
-    [
-        'name' => '春日大社',
-        'rating' => '★★★★☆ (4.7)',
-        'tag' => '#付き合う前',
-        'image_id' => '03',
-        'link' => '#',
-        'countreviews' => 750
-    ],
-    [
-        'name' => '興福寺',
-        'rating' => '★★★★☆ (4.5)',
-        'tag' => '#付き合った後',
-        'image_id' => '04',
-        'link' => '#',
-        'countreviews' => 640
-    ],
-    [
-        'name' => '法隆寺',
-        'rating' => '★★★★★ (4.9)',
-        'tag' => '#付き合う前',
-        'image_id' => '05',
-        'link' => '#',
-        'countreviews' => 1580
-    ],
-    [
-        'name' => '唐招提寺',
-        'rating' => '★★★★☆ (4.4)',
-        'tag' => '#付き合った後',
-        'image_id' => '06',
-        'link' => '#',
-        'countreviews' => 520
-    ]
-];
+$prefecture = $prefecturename; // コントローラーから渡された都道府県名
+$places = $places;
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -111,7 +62,7 @@ $places = [
             <div class="row">
                 <?php foreach ($places as $place): ?>
                 <div class="col-12 mb-3">
-                    <a href="<?= $place['link'] ?>" class="card-link">
+                    <a href="<?= $place['link'] ?>" class="card-link"> <!-- # TODO -->
                         <div class="card place-card">
                             <div class="row g-0">
                                 <div class="col-md-3">
