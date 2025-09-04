@@ -6,6 +6,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// 投稿作成フォーム
+Route::get('/create', function () {
+    return view('create');
+});
+
 Route::get('/places', function () {
     return view('places');
 });
