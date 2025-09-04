@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->foreignId('place_id')->constrained();
             $table->string('title');  
             $table->text('content');
             $table->integer('recommend')->default(1);
             $table->integer('like_count')->default(0);
-            $table->foreignId('place_id');
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('places', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('prefectures_id');
+            $table->foreignId('prefectures_id')->constrained();
             $table->integer('recommend_average');
             $table->timestamps();
         });
