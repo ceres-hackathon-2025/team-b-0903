@@ -11,8 +11,14 @@ Route::get('/create', function () {
     return view('create');
 });
 
+// 場所一覧
 Route::get('/places', function () {
     return view('places');
+});
+
+// ホーム画面
+Route::get('/home', function () {
+    return view('home');
 });
 
 // // 投稿(Post)のルーティング

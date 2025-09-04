@@ -5,7 +5,6 @@
     <a class="moddy-brand" href="{{ url('/') }}" aria-label="moddy home">
     <img
         src="{{ asset('images/moddy_header.png') }}"
-        srcset="{{ asset('images/moddy_header@2x.png') }} 2x, {{ asset('images/moddy_header@3x.png') }} 3x"
         alt=""
         class="moddy-logo-img moddy-logo--banner"   {{-- ← ここが重要！ --}}
         loading="eager" decoding="async"
@@ -62,7 +61,7 @@
 
     .moddy-logo-img{
     width: 120px;
-    /* height: var(--brand-size); */
+    height: var(--brand-size);
     border-radius: 12px;          /* 角丸（お好みで調整 or 0） */
     display: block;               /* 画像下の隙間除去 */
     object-fit: cover;            /* 画像のはみ出し防止 */
