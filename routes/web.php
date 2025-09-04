@@ -36,3 +36,24 @@ Route::get('/create', function () {
 Route::get('/post', function () {
     return view('create');
 });
+
+
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
+// …既存のルートの下あたりに追加
+Route::get('/api/places', function(Request $request) {
+    $q = (string) $request->query('q', '');
+    $limit = min((int)$request->query('limit', 20), 50);
+
+    $query = DB::table('places')->select('id', 'name');
+
+    if ($q !== '') {
+        // 先頭一致。「い」で始まるスポット → 'い%'
+        $query->where('name', 'like', $q.'%');
+        // （必要ならカタカナや半角全角の正規化を追加）
+    }
+
+    return response()->json($query->orderBy('name')->limit($limit)->get());
+})->name('api.places');

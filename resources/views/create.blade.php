@@ -37,11 +37,9 @@
     .card {
         background: var(--card);
         border-radius: var(--radius);
-        /* ここ重要：カードの外に一切描画させない */
         overflow: clip; /* clipが無ければ hidden でも可 */
         box-shadow: var(--shadow);
         border: 1px solid rgba(0,0,0,.04);
-        /* 内側だけに背景/ボーダーを描画して縁のにじみを防止 */
         background-clip: padding-box;
     }
 
@@ -128,6 +126,8 @@
 
 </head>
 <body>
+    {{-- ヘッダー呼び出し --}}
+  @include('partials.header')
   <div class="wrap">
     <div class="card">
       <div class="card-header">
