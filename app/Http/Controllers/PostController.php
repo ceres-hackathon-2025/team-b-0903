@@ -21,7 +21,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-    if (Auth::id() !== $post->user_id) {
+        if (Auth::id() !== $post->user_id) {
             abort(403);
         }
         return view('create', compact('post'));
@@ -33,7 +33,7 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::findOrFail($id);
-    if (Auth::id() !== $post->user_id) {
+        if (Auth::id() !== $post->user_id) {
             abort(403);
         }
         $validated = $request->validate([
