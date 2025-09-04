@@ -1,64 +1,53 @@
 <?php
+$prefecture = '奈良県';
 $places = [
     [
         'name' => '東大寺',
-        'category' => '世界遺産',
-        'category_class' => 'bg-warning',
-        'description' => '奈良の大仏で有名な華厳宗大本山。743年に聖武天皇の発願で建立された歴史ある寺院です。',
-        'address' => '奈良市雑司町406-1',
         'rating' => '★★★★★ (4.8)',
+        'tag' => '付き合う前',
         'image_id' => '01',
-        'link' => '#'
+        'link' => '#',
+        'countreviews' => 1200
     ],
     [
         'name' => '奈良公園',
-        'category' => '公園',
-        'category_class' => 'bg-success',
-        'description' => '約1200頭の鹿が自由に暮らす広大な公園。春日大社、東大寺、興福寺などの史跡も含まれています。',
-        'address' => '奈良市雑司町・春日野町他',
         'rating' => '★★★★☆ (4.6)',
+        'tag' => '#付き合った後',
         'image_id' => '02',
-        'link' => '#'
+        'link' => '#',
+        'countreviews' => 980
     ],
     [
         'name' => '春日大社',
-        'category' => '神社',
-        'category_class' => 'bg-info',
-        'description' => '全国に約1000社ある春日神社の総本社。約3000基の石灯籠と吊灯籠で有名な古社です。',
-        'address' => '奈良市春日野町160',
         'rating' => '★★★★☆ (4.7)',
+        'tag' => '#付き合う前',
         'image_id' => '03',
-        'link' => '#'
+        'link' => '#',
+        'countreviews' => 750
     ],
     [
         'name' => '興福寺',
-        'category' => '世界遺産',
-        'category_class' => 'bg-warning',
-        'description' => '藤原氏の氏寺として栄えた法相宗大本山。五重塔は奈良のシンボルとして親しまれています。',
-        'address' => '奈良市登大路町48',
         'rating' => '★★★★☆ (4.5)',
+        'tag' => '#付き合った後',
         'image_id' => '04',
-        'link' => '#'
+        'link' => '#',
+        'countreviews' => 640
     ],
     [
         'name' => '法隆寺',
-        'category' => '世界遺産',
-        'category_class' => 'bg-warning',
-        'description' => '聖徳太子ゆかりの寺院で、現存する世界最古の木造建築群。日本初の世界文化遺産に登録されました。',
-        'address' => '生駒郡斑鳩町法隆寺山内1-1',
         'rating' => '★★★★★ (4.9)',
+        'tag' => '#付き合う前',
         'image_id' => '05',
-        'link' => '#'
+        'link' => '#',
+        'countreviews' => 1580
     ],
     [
         'name' => '唐招提寺',
-        'category' => '寺院',
-        'category_class' => 'bg-secondary',
-        'description' => '鑑真和上が創建した律宗総本山。金堂は天平建築の傑作として国宝に指定されています。',
-        'address' => '奈良市五条町13-46',
         'rating' => '★★★★☆ (4.4)',
+        'tag' => '#付き合った後',
         'image_id' => '06',
-        'link' => '#'
+        'link' => '#',
+        'countreviews' => 520
     ]
 ];
 ?>
@@ -67,9 +56,18 @@ $places = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>奈良県の史跡・観光地</title>
+    <title><?= $prefecture ?>のデートスポット一覧</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'GenEiMGothic2-Bold';
+            src: url('./font/GenEiMGothic2-Bold.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'GenEiMGothic2-Bold', sans-serif;
+        }
+
         .place-card {
             transition: transform 0.2s;
             cursor: pointer;
@@ -106,7 +104,7 @@ $places = [
     @include('partials.header')
     <div class="container">
         <header class="my-4 text-center">
-            <h1 class="display-4">場所一覧</h1>
+            <h1 class="display-4"><?= $prefecture ?>のデートスポット一覧</h1>
         </header>
         
         <main>
@@ -126,17 +124,14 @@ $places = [
                                 <div class="col-md-9">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h5 class="card-title"><?= htmlspecialchars($place['name']) ?></h5>
-                                            <span class="badge <?= $place['category_class'] ?> category-badge"><?= htmlspecialchars($place['category']) ?></span>
+                                            <h2 class="card-title"><?= htmlspecialchars($place['name']) ?></h5>
                                         </div>
-                                        <p class="card-text"><?= htmlspecialchars($place['description']) ?></p>
-                                        <div class="mb-2">
-                                            <small class="text-muted">
-                                                <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($place['address']) ?>
-                                            </small>
+                                        <div class="mb-3">
+                                            <span class="badge bg-primary bg-color-blue text-white category-badge fs-6">#<?= htmlspecialchars($place['tag']) ?></span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-warning"><?= htmlspecialchars($place['rating']) ?></small>
+                                            <span class="badge rounded-pill bg-warning text-dark fs-4"><?= htmlspecialchars($place['rating']) ?></span>
+                                            <small class="text-muted fs-6">(<?= number_format($place['countreviews']) ?>件の投稿)</small>
                                         </div>
                                     </div>
                                 </div>
