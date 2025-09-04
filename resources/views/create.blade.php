@@ -46,7 +46,6 @@
     .card-header {
         padding: 1.25rem 1.25rem 0.75rem;
         background: linear-gradient(180deg, rgba(var(--base-rgb), .18), rgba(var(--base-rgb), .08));
-        /* border-bottom は角で伸びて見えることがあるため inset シャドウに */
         box-shadow: inset 0 -1px rgba(0,0,0,.06);
     }
     .card-header h1 { margin: 0; font-size: 1.5rem; letter-spacing: .02em; }
@@ -229,7 +228,6 @@
         });
       });
 
-      // セレクト変更 → 星に反映
       select.addEventListener('change', () => render(select.value));
 
       // 初期表示（old()などを反映）
