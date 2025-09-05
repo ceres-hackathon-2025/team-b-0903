@@ -202,12 +202,12 @@ function renderStars($score) {
                                  alt="いいね" 
                                  style="width:32px; height:32px; object-fit:contain;">
                         </button>
-                        <span style="color: var(--muted); font-size: 0.9rem;">いいね <span class="like-count">{{ $post->like ? $post->like->count() : 0 }}</span></span>
+                        <span style="color: var(--muted); font-size: 0.9rem;">いいね <span class="like-count">{{ $post['like_count'] }}</span></span>
                     </div>
                     
                     <div class="post-meta">
-                        <small>投稿者: {{ $post->user->name ?? '' }}</small>
-                        <small>投稿日: {{ $post->created_at->format('Y-m-d') }}</small>
+                        <small>投稿者: </small>
+                        <small>投稿日時: {{ $post['created_at'] }}</small>
                     </div>
                 </article>
                 @endforeach
