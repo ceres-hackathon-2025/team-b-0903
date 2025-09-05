@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('place_id')->constrained();
             $table->string('title');  
             $table->text('content');
-            $table->integer('recommend')->default(1);
+            $table->integer('recommend')->default(3);
             $table->integer('like_count')->default(0);
             $table->string('img_path')->nullable();
             $table->timestamps();
