@@ -165,7 +165,8 @@ class PostController extends Controller
             'user'       => optional($post->user)->name ?? '名無し',   // ← user リレーション
             'place'      => optional($post->place)->name ?? '不明',     // ← place リレーション
             'date'       => optional($post->created_at)->format('Y年n月j日') ?? '',
-            'image_path' => $imagePath,
+            'img_path'   => $post->img_path ? asset($post->img_path) : asset('images/noimage.png'),
+            'place_id'   => $post->place_id ?? '',
             'count_like' => (int) ($post->like_count ?? $post->like()->count()),
         ];
 

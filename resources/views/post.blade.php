@@ -69,7 +69,7 @@
             </div>
           </header>
 
-          <img src="{{ $postPayload['image_path'] ?? asset('images/noimage.png') }}" alt="投稿画像" class="post-image">
+          <img src="{{ $postPayload['img_path'] ?? asset('images/noimage.png') }}" alt="投稿画像" class="post-image">
 
           <div class="post-content">
             <p class="post-text">{{ $postPayload['text'] ?? '' }}</p>
@@ -87,6 +87,7 @@
           <footer class="post-footer">
             <span>投稿者: {{ $postPayload['user'] ?? '名無し' }}</span>
             <span>投稿日: {{ $postPayload['date'] ?? '' }}</span>
+            <a href="{{ route('posts.byPlaceWithPrefecture', ['place' => request('place_id', $postPayload['place_id'] ?? '')]) }}" class="btn btn-ghost">投稿一覧に戻る</a>
           </footer>
         </article>
       </main>
