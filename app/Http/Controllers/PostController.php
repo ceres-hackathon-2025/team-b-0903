@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use App\Models\Place;
 
 class PostController extends Controller
 {
@@ -67,9 +68,12 @@ class PostController extends Controller
         public function indexByPlace($place)
         {
             $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+            $placeModel = Place::find($place);
+            $placeName = $placeModel ? $placeModel->name : '';
             return view('posts', [
                 'posts' => $posts,
-                'place_id' => $place
+                'place_id' => $place,
+                'place_name' => $placeName
             ]);
         }
         // 都道府県ごとの観光地→投稿一覧
