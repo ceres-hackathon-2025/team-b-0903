@@ -2,6 +2,14 @@
 $prefecture = $prefecturename; // コントローラーから渡された都道府県名
 $places = $places;
 ?>
+<?php
+function renderStars($score) {
+    $full = floor($score);
+    $half = ($score - $full) >= 0.5 ? 1 : 0;
+    $empty = 5 - $full - $half;
+    return str_repeat('★', $full) . ($half ? '☆' : '') . str_repeat('☆', $empty);
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -196,7 +204,9 @@ $places = $places;
                                     <h2 class="place-title"><?= htmlspecialchars($place['name']) ?></h2>
                                 </div>
                                 <div>
-                                    <span class="place-rating"><?= htmlspecialchars($place['recommend_average']) ?></span>
+                                    <span class="place-rating">
+                                        <?= renderStars($place['recommend_average']) ?>(<?= htmlspecialchars($place['recommend_average']) ?>)
+                                    </span>
                                 </div>
                             </div>
                         </div>
