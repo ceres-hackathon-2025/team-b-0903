@@ -112,11 +112,11 @@
       <h2 class="h2"><span>投稿一覧</span></h2>
       <div class="grid cols-3">
         @forelse ($posts as $post)
-          <a href="{{ route('posts.showByPlace', ['post' => $post['id']]) }}" class="card-link">
+          <a href="{{ route('posts.show', $post->id) }}" class="card-link">
             <article class="card">
               <div class="ph" aria-hidden="true">
                 @if ($post->image_path)
-                  <img src="{{asset($post->img_path)}}" alt="{{ $post->title }}" style="width:100%;height:auto;object-fit:cover;">
+                  <img src="{{ asset('img/' . $post->image_path) }}" alt="{{ $post->title }}" style="width:100%;height:auto;object-fit:cover;">
                 @else
                   画像なし
                 @endif

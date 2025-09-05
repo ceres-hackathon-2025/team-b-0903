@@ -124,7 +124,6 @@ class PostController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validated['like_count'] = 0;
-
         // 画像保存処理
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
@@ -142,11 +141,42 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-    // 投稿詳細表示
-    $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
-    $prefectures = Prefecture::all();
-    return view('posts', compact('post', 'prefectures'));
+        // 都道府県（ヘッダー用）
+        $prefectures = Prefecture::all();
+
+        // リレーションだけを eager load（user, place, like は Model のメソッド名）
+        $post = \App\Models\Post::with(['user', 'place', 'like'])->findOrFail($id);
+
+        // recommend(1-5) を ★★★☆☆ に整形
+        $score = (int) ($post->recommend ?? 0);
+        $score = max(0, min(5, $score));
+        $stars = str_repeat('★', $score) . str_repeat('☆', 5 - $score);
+
+        // 画像パス（image_path カラム想定。なければ noimage）
+        $imagePath = $post->image_path
+            ? asset('storage/' . ltrim($post->image_path, '/'))
+            : asset('images/noimage.png');
+
+        // ビュー向けペイロード
+        $payload = [
+            'title'      => (string) ($post->title ?? ''),
+            'recommend'  => $stars,
+            'text'       => (string) ($post->content ?? ''),
+            'user'       => optional($post->user)->name ?? '名無し',   // ← user リレーション
+            'place'      => optional($post->place)->name ?? '不明',     // ← place リレーション
+            'date'       => optional($post->created_at)->format('Y年n月j日') ?? '',
+            'image_path' => $imagePath,
+            'count_like' => (int) ($post->like_count ?? $post->like()->count()),
+        ];
+
+        // Blade へ渡す
+        return view('post', [
+            'postPayload' => $payload,
+            'prefectures' => $prefectures,
+        ]);
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.

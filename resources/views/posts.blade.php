@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $place_name }} - レビュー</title>
+
+    <title><?= htmlspecialchars($place_name) ?> - レビュー</title>
+
     <style>
         :root{
             --base-rgb: 234,206,202;

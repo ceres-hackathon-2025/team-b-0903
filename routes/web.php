@@ -9,7 +9,7 @@ require __DIR__.'/auth.php';
 
 // 口コミ作成画面
 Route::get('/create/{place_id}', [PostController::class, "create"] )->name('posts.create');
-Route::post('/', [PostController::class, "store"] )->name('posts.store');
+Route::post('/show', [PostController::class, "store"] )->name('posts.store');
 
 // 場所一覧
 Route::get('/places', function () {
@@ -43,12 +43,10 @@ Route::get('/{place}/create', function ($place) {
 });
 
 //投稿詳細
-Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.showByPlace');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 // 投稿詳細から投稿者だけが投稿編集
-Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->middleware('can:update,post')->name('posts.edit');
-
-
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
 
 
 
