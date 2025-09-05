@@ -41,9 +41,11 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'recommend' => 'nullable|boolean',
+            'recommend' => 'nullable|integer|min:1|max:5',
         ]);
         $post->update($validated);
+        // 投稿更新後におすすめ度平均値を更新
+        $this->updateRecommendAverageForPlace($post->place_id);
         return redirect()->route('posts.show', $post->id)->with('success', '投稿を更新しました');
     }
 
@@ -94,8 +96,6 @@ class PostController extends Controller
                 'prefecture_id' => $prefecture
             ]);
         }
-    // ...existing code...
-
     /**
      * Show the form for creating a new resource.
      */
@@ -120,7 +120,7 @@ class PostController extends Controller
             'place_id' => 'required|exists:places,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'recommend' => 'nullable|boolean',
+            'recommend' => 'nullable|integer|min:1|max:5',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validated['like_count'] = 0;
@@ -132,6 +132,8 @@ class PostController extends Controller
         }
 
         $post = Post::create($validated);
+        // 投稿作成後におすすめ度平均値を更新
+        $this->updateRecommendAverageForPlace($validated['place_id']);
         return redirect()->route('posts.show', $post->id)->with('success', '投稿を作成しました');
     }
 
@@ -177,5 +179,33 @@ class PostController extends Controller
     {
         $count = Post::where('place_id', $place_id)->count();
         return $count;
+    }
+
+    /**
+     * 全ての観光地ごとに投稿おすすめ度平均値を算出し、Placeテーブルに保存する
+     */
+    public function updateRecommendAverage()
+    {
+        $places = Place::all();
+        foreach ($places as $place) {
+            $average = Post::where('place_id', $place->id)->avg('recommend');
+            $place->recommend_average = $average;
+            $place->save();
+        }
+    }
+
+    // 観光地ごとのおすすめ度平均値を更新（投稿がある場合は平均値、ない場合は初期値3）
+    private function updateRecommendAverageForPlace($place_id)
+    {
+        $average = Post::where('place_id', $place_id)->avg('recommend');
+        if ($average === null) {
+            $average = 3;
+        }
+        
+        $place = Place::find($place_id);
+        if ($place) {
+            $place->recommend_average = $average;
+            $place->save();
+        }
     }
 }

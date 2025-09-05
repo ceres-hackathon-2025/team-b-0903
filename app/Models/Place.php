@@ -9,13 +9,13 @@ class Place extends Model
     protected $table = 'places';
     protected $fillable = [
         'name',
-        'prefectures_id',
+        'prefecture_id',
         'recommend_average',
     ];
 
     // リレーション例: Prefecture
     public function prefecture()
     {
-        return $this->belongsTo(Prefecture::class, 'prefectures_id');
+        return $this->belongsTo(Prefecture::class, 'prefecture_id');
     }
 }
