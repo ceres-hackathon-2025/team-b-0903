@@ -95,10 +95,24 @@
   }
 
   /* 検索枠が勝手に広がらないよう固定気味に */
+  /* 検索ボックス */
   .moddy-search{
-    flex: 0 1 auto;                 /* ← 伸びない */
-    width: clamp(260px, 35vw, 420px);/* ← 端末に合わせて適度に縮む */
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+
+    height: 44px;                  /* 既存と同じ高さ */
+    padding: 0 .75rem;             /* ← 横方向の余白を増やす */
+    background: #fff;
+
+    /* 枠線をピンク系に */
+    border: 2px solid rgba(var(--base-rgb), .9); /* #EACECA に近い色味 */
+    border-radius: 12px;
+
+    /* ほんのり内側の陰影（任意） */
+    box-shadow: 0 1px 3px rgba(0,0,0,.03) inset;
   }
+
 
   @media (max-width:640px){
     .moddy-search{ width: min(92vw, 420px); }
