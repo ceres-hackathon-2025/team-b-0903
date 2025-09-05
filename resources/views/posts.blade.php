@@ -206,7 +206,7 @@ function renderStars($score) {
                     </div>
                     
                     <div class="post-meta">
-                        <small>投稿者: </small>
+                        <small>投稿者: {{ $post->user->name ?? '' }}</small>
                         <small>投稿日時: {{ $post['created_at'] }}</small>
                     </div>
                 </article>
