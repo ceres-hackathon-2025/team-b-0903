@@ -113,7 +113,7 @@
       <h2 class="h2"><span>投稿一覧</span></h2>
       <div class="grid cols-3">
         @forelse ($posts as $post)
-          <a href="{{ route('posts.showByPlace', ['post' => $post['id']]) }}" class="card-link">
+          <a href="{{ route('posts.show', $post->id) }}" class="card-link">
             <article class="card">
               <div class="ph" aria-hidden="true">
                 @if ($post->img_path)
