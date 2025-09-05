@@ -105,6 +105,7 @@
         {{-- POST + 画像送信 --}}
         <form id="reviewForm" method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
           <input type="hidden" name="user_id" value="{{ $user_id }}">
+          <input type="hidden" name="place_id" value="{{ request('place_id', $place_id ?? '') }}">
           @csrf
 
           {{-- タイトル（自由入力・1行） --}}
@@ -174,6 +175,7 @@
           <div id="formMsg" class="msg" style="display:none"></div>
 
           <div class="card-footer">
+            <a href="{{ route('posts.byPlaceWithPrefecture', ['place' => request('place_id', $place_id ?? '')]) }}" class="btn btn-ghost">投稿一覧に戻る</a>
             <button type="reset" class="btn btn-ghost">リセット</button>
             <button id="submitBtn" type="submit" class="btn btn-primary">送信</button>
           </div>

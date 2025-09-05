@@ -139,7 +139,7 @@
                     <!-- 口コミ投稿 -->
                     <div class="post-action-card">
                         <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">口コミを投稿</h3>
-                        <button class="post-btn">投稿する</button>
+                        <a class="post-btn" href="{{ route('posts.create', ['place_id' => $place_id]) }}">投稿する</a>
                     </div>
                 </div>
             </section>
@@ -150,7 +150,7 @@
             <section class="posts-section">
                 <h2 class="h2"><span>投稿一覧</span></h2>
                 
-                <?php foreach ($posts as $post): ?>
+                @foreach ($posts as $post)
                 <article class="post-item">
                     <div class="post-header">
                         <h2 class="post-title"><?= htmlspecialchars($post->title) ?></h2>
