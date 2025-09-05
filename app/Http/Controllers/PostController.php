@@ -60,32 +60,37 @@ class PostController extends Controller
     // 投稿一覧表示
     public function index()
     {
-    $posts = Post::with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
-    return view('posts', compact('posts'));
+        $posts = Post::with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+        return view('posts', compact('posts'));
     }
         // 観光地ごとの投稿一覧（都道府県経由 or 直接）
         // 観光地ごとの投稿一覧（直接）
-        public function indexByPlace($place)
-        {
-            $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
-            $placeModel = Place::find($place);
-            $placeName = $placeModel ? $placeModel->name : '';
-            return view('posts', [
-                'posts' => $posts,
-                'place_id' => $place,
-                'place_name' => $placeName
-            ]);
-        }
-        // 都道府県ごとの観光地→投稿一覧
-        public function indexByPlaceWithPrefecture($prefecture, $place)
-        {
-            $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
-            return view('posts', [
-                'posts' => $posts,
-                'place_id' => $place,
-                'prefecture_id' => $prefecture
-            ]);
-        }
+    public function indexByPlace($place)
+    {
+        $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+            // $placeが存在しない場合は404を返す
+        $placeModel = Place::findOrFail($place);
+        $posts = Post::where('place_id', $placeModel->id)
+            ->with(['user', 'place', 'like'])
+            ->orderByDesc('created_at')
+            ->get();
+            
+        return view('posts', [
+            'posts' => $posts,
+            'place_id' => $placeModel->id,
+            'place_name' => $placeModel->name
+        ]);
+    }
+    // 都道府県ごとの観光地→投稿一覧
+    public function indexByPlaceWithPrefecture($prefecture, $place)
+    {
+        $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+        return view('posts', [
+            'posts' => $posts,
+            'place_id' => $place,
+            'prefecture_id' => $prefecture
+        ]);
+    }
     // ...existing code...
 
 
@@ -111,7 +116,7 @@ class PostController extends Controller
             $validated['image_path'] = $imagePath;
         }
 
-    $post = Post::create($validated);
+        $post = Post::create($validated);
         return redirect()->route('posts.show', $post->id)->with('success', '投稿を作成しました');
     }
 
@@ -120,9 +125,9 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-    // 投稿詳細表示
-    $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
-    return view('posts', compact('post'));
+        // 投稿詳細表示
+        $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
+        return view('posts', compact('post'));
     }
 
     /**
@@ -139,7 +144,7 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         // 投稿削除
-    $post = Post::findOrFail($id);
+        $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->route('posts.index')->with('success', '投稿を削除しました');
     }
