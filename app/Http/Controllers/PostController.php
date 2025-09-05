@@ -61,11 +61,12 @@ class PostController extends Controller
     // 投稿一覧表示
     public function index()
     {
-    $posts = Post::with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
-    return view('posts', compact('posts'));
+        $posts = Post::with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+        return view('posts', compact('posts'));
     }
         // 観光地ごとの投稿一覧（都道府県経由 or 直接）
         // 観光地ごとの投稿一覧（直接）
+
         public function indexByPlace($place)
         {
             $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
@@ -100,6 +101,7 @@ class PostController extends Controller
         return view('create', compact('place_name', 'place_id', 'user_id', 'prefectures'));
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
@@ -111,7 +113,7 @@ class PostController extends Controller
             'place_id' => 'required|exists:places,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'recommend' => 'nullable|integer',
+            'recommend' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validated['like_count'] = 0;
@@ -122,8 +124,8 @@ class PostController extends Controller
             $validated['image_path'] = $imagePath;
         }
 
-    $post = Post::create($validated);
-        return redirect()->route('home', $post->id)->with('success', '投稿を作成しました');
+        $post = Post::create($validated);
+        return redirect()->route('posts.show', $post->id)->with('success', '投稿を作成しました');
     }
 
     /**
@@ -151,7 +153,7 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         // 投稿削除
-    $post = Post::findOrFail($id);
+        $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->route('posts.index')->with('success', '投稿を削除しました');
     }
