@@ -38,7 +38,7 @@
         <a class="login-btn" href="{{ url('/login') }}" aria-label="ログインへ">ログイン</a>
       @endguest
       @auth
-        <span class="user-chip">userID: {{ Auth::id() }}</span>
+        <span class="user-chip">ユーザー: {{ Auth::user()->name }}</span>
       @endauth
     </div>
 
