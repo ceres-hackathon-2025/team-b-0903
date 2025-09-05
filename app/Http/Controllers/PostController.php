@@ -139,16 +139,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(string $id)
-    // {
-    // $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
-    // $prefectures = Prefecture::all();
-    // return view('post', compact('post', 'prefectures'));
-    // }
     public function show(string $id)
     {
         // 都道府県（ヘッダー用）
-        $prefectures = \App\Models\Prefecture::all();
+        $prefectures = Prefecture::all();
 
         // リレーションだけを eager load（user, place, like は Model のメソッド名）
         $post = \App\Models\Post::with(['user', 'place', 'like'])->findOrFail($id);
