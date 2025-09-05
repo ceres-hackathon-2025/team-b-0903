@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Prefecture;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,35 +66,40 @@ class PostController extends Controller
     }
         // 観光地ごとの投稿一覧（都道府県経由 or 直接）
         // 観光地ごとの投稿一覧（直接）
-    public function indexByPlace($place)
-    {
-        $placeModel = Place::findOrFail($place);
 
-        $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
-            // $placeが存在しない場合は404を返す
-        
-        $posts = Post::where('place_id', $placeModel->id)
-            ->with(['user', 'place', 'like'])
-            ->orderByDesc('created_at')
-            ->get();
-
-        return view('posts', [
-            'posts' => $posts,
-            'place_id' => $placeModel->id,
-            'place_name' => $placeModel->name
-        ]);
-    }
-    // 都道府県ごとの観光地→投稿一覧
-    public function indexByPlaceWithPrefecture($prefecture, $place)
-    {
-        $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
-        return view('posts', [
-            'posts' => $posts,
-            'place_id' => $place,
-            'prefecture_id' => $prefecture
-        ]);
-    }
+        public function indexByPlace($place)
+        {
+            $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+            $prefectures = Prefecture::all();
+            return view('posts', [
+                'posts' => $posts,
+                'place_id' => $place,
+                'prefectures' => $prefectures
+            ]);
+        }
+        // 都道府県ごとの観光地→投稿一覧
+        public function indexByPlaceWithPrefecture($prefecture, $place)
+        {
+            $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+            return view('posts', [
+                'posts' => $posts,
+                'place_id' => $place,
+                'prefecture_id' => $prefecture
+            ]);
+        }
     // ...existing code...
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create($place_id)
+    {
+        // 投稿作成フォーム表示
+        $place_name = Place::where('id', $place_id)->value("name");
+        $prefectures = Prefecture::all();
+        $user_id = Auth::id();      
+        return view('create', compact('place_name', 'place_id', 'user_id', 'prefectures'));
+    }
 
 
     /**
@@ -127,9 +133,10 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        // 投稿詳細表示
-        $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
-        return view('posts', compact('post'));
+    // 投稿詳細表示
+    $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
+    $prefectures = Prefecture::all();
+    return view('posts', compact('post', 'prefectures'));
     }
 
     /**
