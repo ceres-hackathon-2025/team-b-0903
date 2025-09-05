@@ -92,7 +92,8 @@ class PostController extends Controller
     {
         // 投稿作成フォーム表示
         $place_name = Place::where('id', $place_id)->value("name");
-        return view('create', compact('place_name', 'place_id'));
+        $user_id = Auth::id();
+        return view('create', compact('place_name', 'place_id', 'user_id'));
     }
 
     /**
@@ -118,7 +119,7 @@ class PostController extends Controller
         }
 
     $post = Post::create($validated);
-        return redirect()->route('posts.show', $post->id)->with('success', '投稿を作成しました');
+        return redirect()->route('home', $post->id)->with('success', '投稿を作成しました');
     }
 
     /**

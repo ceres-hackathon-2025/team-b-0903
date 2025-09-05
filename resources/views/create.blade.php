@@ -101,40 +101,46 @@
       </div>
 
       <div class="card-body">
+
         {{-- POST + 画像送信 --}}
-        <form id="reviewForm" method="POST" action="{{route('posts.store')}}" enctype="multipart/form-data">
+        <form id="reviewForm" method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+          <input type="hidden" name="user_id" value="{{ $user_id }}">
           @csrf
 
-          {{-- name_id を表示（未設定なら placeholder の「null」）／訪問日は削除 --}}
-          <div class="row-2col">
-            <div class="field">
+          {{-- タイトル（自由入力・1行） --}}
+          <div class="field">
+            <label class="label">タイトル</label>
+            <input
+              type="text"
+              name="title"
+              value="{{ old('title') }}"
+              placeholder="タイトルを入力"
+              required
+            />
+          </div>
 
-              <input
-                type="hidden"
-                name="place_id"
-                value="{{ $place_id }}"
-                placeholder="null"
-                readonly
-                class="readonly"
-              />
-              <label class="label">場所の名前</label>
+          {{-- 場所 × 評価 を横並び --}}
+          <div class="row-2col">
+            {{-- 場所 --}}
+            <div class="field">
+              <label class="label">場所</label>
+              <input type="hidden" name="place_id" value="{{ $place_id }}">
               <input
                 type="text"
                 name="place_name"
                 value="{{ $place_name }}"
-                placeholder="null"
+                placeholder="未選択"
                 readonly
                 class="readonly"
+                required
               />
             </div>
-            <div class="field"><!-- レイアウトの空カラム --></div>
-          </div>
 
-          {{-- 評価（1〜5） --}}
-          <div class="row-2col">
-            <div class="field">
-              <label class="label">評価（1〜5）</label>
-              <div class="stars" aria-label="評価（スター）">
+            {{-- 満足度（★のみ・プルダウン無し） --}}
+            <div class="field" id="satisfactionField">
+              <label class="label">満足度</label>
+
+              <div class="stars" aria-label="満足度（スター）">
                 <button type="button" class="star-btn" data-value="1" aria-label="1点">★</button>
                 <button type="button" class="star-btn" data-value="2" aria-label="2点">★</button>
                 <button type="button" class="star-btn" data-value="3" aria-label="3点">★</button>
@@ -142,23 +148,17 @@
                 <button type="button" class="star-btn" data-value="5" aria-label="5点">★</button>
                 <span class="rating-inline" id="ratingLabel">未選択</span>
               </div>
-              <div style="margin-top:.5rem">
-                <select name="recommend" id="ratingSelect" aria-label="評価（セレクト）">
-                  <option value="">選択してください</option>
-                  @for ($i = 1; $i <= 5; $i++)
-                    <option value="{{ $i }}" @selected(old('recommend')==$i)>{{ $i }}</option>
-                  @endfor
-                </select>
-                <div class="note">※ 星かセレクト、どちらで操作してもOKです。</div>
-              </div>
+
+              {{-- ★ の選択値をここに入れて送信 --}}
+              <input type="hidden" name="recommend" id="recommendInput" value="{{ old('recommend') }}" required>
+              
             </div>
-            <div class="field"><!-- レイアウトの空カラム --></div>
           </div>
 
           {{-- 本文 --}}
           <div class="field">
             <label class="label">本文</label>
-            <textarea name="content" rows="6" placeholder="本文を入力">{{ old('content') }}</textarea>
+            <textarea name="content" rows="6" placeholder="本文を入力">{{ old('content') }} </textarea>
           </div>
 
           {{-- 写真（本文の下） --}}
@@ -172,6 +172,7 @@
           </div>
 
           <div id="formMsg" class="msg" style="display:none"></div>
+
           <div class="card-footer">
             <button type="reset" class="btn btn-ghost">リセット</button>
             <button id="submitBtn" type="submit" class="btn btn-primary">送信</button>
@@ -183,18 +184,28 @@
 
   <script>
     // ★ スターUIと<select>の同期
-    (function() {
-      const select = document.getElementById('ratingSelect');
-      const label  = document.getElementById('ratingLabel');
-      const stars  = Array.from(document.querySelectorAll('.star-btn'));
-      function render(val){
+    (function () {
+      const field = document.getElementById('satisfactionField');
+      if (!field) return;
+
+      const input = document.getElementById('recommendInput');
+      const label = field.querySelector('#ratingLabel');
+      const stars = Array.from(field.querySelectorAll('.star-btn'));
+
+      function render(val) {
         const n = Number(val) || 0;
-        stars.forEach((btn, i)=>btn.classList.toggle('active', i < n));
+        stars.forEach((btn, idx) => btn.classList.toggle('active', idx < n));
         label.textContent = n ? `${n}.0 / 5` : '未選択';
       }
-      stars.forEach(btn => btn.addEventListener('click', () => { select.value = btn.dataset.value; render(select.value); }));
-      select.addEventListener('change', () => render(select.value));
-      render(select.value);
+
+      stars.forEach(btn => {
+        btn.addEventListener('click', () => {
+          input.value = btn.dataset.value;   // hiddenに反映
+          render(input.value);               // 見た目更新
+        });
+      });
+      // 初期表示（old('recommend') があれば反映）
+      render(input.value);
     })();
 
     // 画像プレビュー
