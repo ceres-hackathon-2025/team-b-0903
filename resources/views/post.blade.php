@@ -92,6 +92,9 @@
 
           <div class="card-footer">
             <a href="{{ route('posts.byPlaceWithPrefecture', ['place' => request('place_id', $postPayload['place_id'] ?? '')]) }}" class="btn btn-ghost">投稿一覧に戻る</a>
+            @if (Auth::id() === ($postPayload['user_id'] ?? null))
+              <a href="{{ route('posts.edit', $postPayload['id']) }}" class="btn btn-ghost">編集</a>
+            @endif
           </div>
 
           <footer class="post-footer">

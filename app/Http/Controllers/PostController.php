@@ -26,7 +26,9 @@ class PostController extends Controller
         if (Auth::id() !== $post->user_id) {
             abort(403);
         }
-        return view('create', compact('post'));
+        $prefectures = Prefecture::all();
+        $place_name = \App\Models\Place::where('id', $post->place_id)->value('name');
+        return view('edit', compact('post', 'prefectures', 'place_name'));
     }
 
 
@@ -159,6 +161,8 @@ class PostController extends Controller
 
         // ビュー向けペイロード
         $payload = [
+            'id'         => $post->id,
+            'user_id'    => $post->user_id,
             'title'      => (string) ($post->title ?? ''),
             'recommend'  => $stars,
             'text'       => (string) ($post->content ?? ''),
