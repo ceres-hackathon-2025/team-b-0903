@@ -14,7 +14,7 @@ class Post extends Model
         'content',
         'recommend',
         'like_count',
-        'image_path',
+        'img_path',
     ];
 
     // リレーション例: Place

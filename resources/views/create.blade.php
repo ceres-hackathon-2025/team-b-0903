@@ -166,7 +166,7 @@
           <div class="field">
             <label class="label">写真 <span class="hint">最大5枚・各2MBまで（JPG/PNG/WebP）</span></label>
             <label class="uploader">
-              <input id="photos" type="file" name="image" accept="image/*" multiple>
+              <input id="photos" type="file" name="img_path" accept="image/*">
               <span class="uploader-text">ドラッグ＆ドロップ、またはクリックして選択</span>
             </label>
             <div id="preview" class="thumbs"></div>

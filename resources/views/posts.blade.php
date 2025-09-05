@@ -186,9 +186,15 @@ function renderStars($score) {
                         </div>
                         
                         <div>
-                            <img src="{{ asset($post->img_path) }}" 
-                                 class="post-image" 
-                                 alt="レビュー画像">
+                            @if($post->img_path)
+                                <img src="{{ asset('storage/' . $post->img_path) }}" 
+                                     class="post-image" 
+                                     alt="レビュー画像">
+                            @else
+                                <div class="post-image" style="background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #999;">
+                                    画像なし
+                                </div>
+                            @endif
                         </div>
                         
                         <div class="post-content">{{ $post->content }}</div>
@@ -202,12 +208,12 @@ function renderStars($score) {
                                  alt="いいね" 
                                  style="width:32px; height:32px; object-fit:contain;">
                         </button>
-                        <span style="color: var(--muted); font-size: 0.9rem;">いいね <span class="like-count">{{ $post->like ? $post->like->count() : 0 }}</span></span>
+                        <span style="color: var(--muted); font-size: 0.9rem;">いいね <span class="like-count">{{ $post['like_count'] }}</span></span>
                     </div>
                     
                     <div class="post-meta">
                         <small>投稿者: {{ $post->user->name ?? '' }}</small>
-                        <small>投稿日: {{ $post->created_at->format('Y-m-d') }}</small>
+                        <small>投稿日時: {{ $post['created_at'] }}</small>
                     </div>
                 </article>
                 @endforeach

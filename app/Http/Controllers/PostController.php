@@ -123,13 +123,16 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'recommend' => 'nullable|integer|min:1|max:5',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'img_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validated['like_count'] = 0;
+        
         // 画像保存処理
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $validated['image_path'] = $imagePath;
+        if ($request->hasFile('img_path')) {
+            $imagePath = $request->file('img_path')->store('images', 'public');
+            $validated['img_path'] = $imagePath;
+            
+        } else {
         }
 
         $post = Post::create($validated);
@@ -154,9 +157,9 @@ class PostController extends Controller
         $score = max(0, min(5, $score));
         $stars = str_repeat('★', $score) . str_repeat('☆', 5 - $score);
 
-        // 画像パス（image_path カラム想定。なければ noimage）
-        $imagePath = $post->image_path
-            ? asset('storage/' . ltrim($post->image_path, '/'))
+        // 画像パス（img_path カラム想定。なければ noimage）
+        $imagePath = $post->img_path
+            ? asset('storage/' . ltrim($post->img_path, '/'))
             : asset('images/noimage.png');
 
         // ビュー向けペイロード
@@ -169,7 +172,7 @@ class PostController extends Controller
             'user'       => optional($post->user)->name ?? '名無し',   // ← user リレーション
             'place'      => optional($post->place)->name ?? '不明',     // ← place リレーション
             'date'       => optional($post->created_at)->format('Y年n月j日') ?? '',
-            'img_path'   => $post->img_path ? asset($post->img_path) : asset('images/noimage.png'),
+            'img_path'   => $post->img_path ? asset('storage/' . $post->img_path) : asset('images/noimage.png'),
             'place_id'   => $post->place_id ?? '',
             'count_like' => (int) ($post->like_count ?? $post->like()->count()),
         ];
