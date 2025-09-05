@@ -153,6 +153,7 @@
                 <h2 class="h2"><span>投稿一覧</span></h2>
                 
                 @foreach ($posts as $post)
+                <a href="{{ route('posts.show', $post->id) }}" class="card-link">
                 <article class="post-item">
                     <div class="post-header">
                         <h2 class="post-title">{{ $post->title }}</h2>
@@ -185,6 +186,7 @@
                         <small>投稿日: {{ $post->created_at->format('Y-m-d') }}</small>
                     </div>
                 </article>
+                </a>
                 @endforeach
             </section>
         </div>
