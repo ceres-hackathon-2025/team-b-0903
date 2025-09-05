@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('content');
             $table->integer('recommend')->default(1);
             $table->integer('like_count')->default(0);
+            $table->string('img_path')->nullable();
             $table->timestamps();
         });
     }

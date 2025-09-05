@@ -43,7 +43,7 @@ class PlaceSeeder extends Seeder
                 'name' => $place_name,
                 'prefecture_id' => 29,              // 奈良県のID（注意：prefecturesのSeederでIDが変わるなら確認して）
                 'recommend_average' => 3,          // 仮の平均値（必須なら）
-                'image_pass' => $image_passes[$index], // 画像パスを追加
+                'img_path' => $image_passes[$index], // 画像パスを追加
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
