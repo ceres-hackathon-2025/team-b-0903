@@ -1,7 +1,6 @@
 <?php
 $prefecture = $prefecturename; // コントローラーから渡された都道府県名
 $places = $places;
-$img_id = "01"; // TODO
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -188,7 +187,7 @@ $img_id = "01"; // TODO
                     <a href="" class="place-card"> <!-- # TODO -->
                         <div class="card-content">
                             <div class="image-section">
-                                <img src="{{ asset('img/test' . $img_id . '.jpg') }}" 
+                                <img src="{{ asset($place['image_pass']) }}" 
                                      class="place-image" 
                                      alt="<?= htmlspecialchars($place['name']) ?>">
                             </div>

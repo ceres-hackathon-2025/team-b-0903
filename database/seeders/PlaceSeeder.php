@@ -12,6 +12,8 @@ class PlaceSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('places')->truncate();
+
         $nara_places = [
             '東大寺',
             '奈良公園',
@@ -24,11 +26,24 @@ class PlaceSeeder extends Seeder
             '吉野山',
         ];
 
-        foreach ($nara_places as $place_name) {
+        $image_passes = [
+            'img/toudaiji.jpg',
+            'img/nara_park.jpg',
+            'img/kasuga_taisha.jpg',
+            'img/yakushiji.jpg',
+            'img/horyuji.jpg',
+            'img/kofukuji.jpg',
+            'img/naramachi.jpg',
+            'img/asukadera.jpg',
+            'img/yoshinoyama.jpg',
+        ];
+
+        foreach ($nara_places as $index => $place_name) {
             DB::table('places')->insert([
                 'name' => $place_name,
                 'prefecture_id' => 29,              // 奈良県のID（注意：prefecturesのSeederでIDが変わるなら確認して）
-                'recommend_average' => 3,           // 仮の平均値（必須なら）
+                'recommend_average' => 3,          // 仮の平均値（必須なら）
+                'image_pass' => $image_passes[$index], // 画像パスを追加
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
