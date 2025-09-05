@@ -113,11 +113,10 @@ class PostController extends Controller
             'place_id' => 'required|exists:places,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'recommend' => 'nullable|boolean',
+            'recommend' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validated['like_count'] = 0;
-
         // 画像保存処理
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
@@ -136,7 +135,7 @@ class PostController extends Controller
     // 投稿詳細表示
     $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
     $prefectures = Prefecture::all();
-    return view('posts', compact('post', 'prefectures'));
+    return view('post', compact('post', 'prefectures'));
     }
 
     /**
