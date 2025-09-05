@@ -186,9 +186,15 @@ function renderStars($score) {
                         </div>
                         
                         <div>
-                            <img src="{{ asset($post->img_path) }}" 
-                                 class="post-image" 
-                                 alt="レビュー画像">
+                            @if($post->img_path)
+                                <img src="{{ asset('storage/' . $post->img_path) }}" 
+                                     class="post-image" 
+                                     alt="レビュー画像">
+                            @else
+                                <div class="post-image" style="background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #999;">
+                                    画像なし
+                                </div>
+                            @endif
                         </div>
                         
                         <div class="post-content">{{ $post->content }}</div>

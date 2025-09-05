@@ -35,10 +35,15 @@
     <!-- 右：ログイン / userID -->
     <div class="moddy-actions">
       @guest
-        <a class="login-btn" href="{{ url('/login') }}" aria-label="ログインへ">ログイン</a>
+        <a class="register-btn" href="{{ url('/register') }}" aria-label="新規登録">新規登録</a>
+        <a class="login-btn" href="{{ url('/login') }}" aria-label="ログイン">ログイン</a>
       @endguest
       @auth
         <span class="user-chip">ユーザー: {{ Auth::user()->name }}</span>
+        <form method="POST" action="{{ route('logout') }}" class="logout-form">
+          @csrf
+          <button type="submit" class="logout-btn" aria-label="ログアウト">ログアウト</button>
+        </form>
       @endauth
     </div>
 
@@ -176,6 +181,21 @@
     transition: background .15s, transform .06s;
   }
   .login-btn:hover{ background: rgba(var(--base-rgb), .3); transform: translateY(-1px); }
+  .logout-form{
+    display: inline-flex;
+  }
+  .logout-btn{
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: .5rem .9rem; border-radius: 999px; text-decoration: none;
+    font-weight: 700; color:#5a453f;
+    border: 1px solid rgba(var(--base-rgb), .55);
+    background: rgba(var(--base-rgb), .22);
+    transition: background .15s, transform .06s;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  .logout-btn:hover{ background: rgba(var(--base-rgb), .3); transform: translateY(-1px); }
   .user-chip{
     display: inline-flex; align-items: center;
     padding: .5rem .8rem; border-radius: 999px;

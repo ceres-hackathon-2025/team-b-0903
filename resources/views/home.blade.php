@@ -117,7 +117,7 @@
             <article class="card">
               <div class="ph" aria-hidden="true">
                 @if ($post->img_path)
-                  <img src="{{asset($post->img_path)}}" alt="{{ $post->title }}">
+                  <img src="{{ asset('storage/' . $post->img_path) }}" alt="{{ $post->title }}">
                 @else
                   画像なし
                 @endif
