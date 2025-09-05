@@ -1,7 +1,14 @@
 <?php
 $prefecture = $prefecturename; // コントローラーから渡された都道府県名
 $places = $places;
-$img_id = "01"; // TODO
+?>
+<?php
+function renderStars($score) {
+    $full = floor($score);
+    $half = ($score - $full) >= 0.5 ? 1 : 0;
+    $empty = 5 - $full - $half;
+    return str_repeat('★', $full) . ($half ? '☆' : '') . str_repeat('☆', $empty);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -185,10 +192,10 @@ $img_id = "01"; // TODO
         <main>
             <div class="places-grid">
                 <?php foreach ($places as $place): ?>
-                    <a href="" class="place-card"> <!-- # TODO -->
+                    <a href="{{ route('posts.byPlaceWithPrefecture', ['place' => $place['id']]) }}" class="place-card"> <!-- # TODO -->
                         <div class="card-content">
                             <div class="image-section">
-                                <img src="{{ asset('img/test' . $img_id . '.jpg') }}" 
+                                <img src="{{ asset($place['image_pass']) }}" 
                                      class="place-image" 
                                      alt="<?= htmlspecialchars($place['name']) ?>">
                             </div>
@@ -197,7 +204,9 @@ $img_id = "01"; // TODO
                                     <h2 class="place-title"><?= htmlspecialchars($place['name']) ?></h2>
                                 </div>
                                 <div>
-                                    <span class="place-rating"><?= htmlspecialchars($place['recommend_average']) ?></span>
+                                    <span class="place-rating">
+                                        <?= renderStars($place['recommend_average']) ?>(<?= htmlspecialchars($place['recommend_average']) ?>)
+                                    </span>
                                 </div>
                             </div>
                         </div>
