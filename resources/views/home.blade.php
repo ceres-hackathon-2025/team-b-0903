@@ -83,9 +83,11 @@
     .pill{ font-size:.75rem; border:1px solid rgba(var(--base-rgb), .55); background:rgba(var(--base-rgb), .22); color:#5a453f; border-radius:999px; padding:.1rem .5rem; }
     .grid{ display:grid; gap:1rem; }
     @media (min-width:720px){ .grid.cols-3{ grid-template-columns: repeat(3,1fr); } .grid.cols-4{ grid-template-columns: repeat(4,1fr); } }
-    .card{ border:1px solid rgba(0,0,0,.08); border-radius:16px; background:#fff; box-shadow: 0 10px 28px rgba(0,0,0,.06); overflow:hidden }
+    .card{ border:1px solid rgba(0,0,0,.08); border-radius:16px; background:#fff; box-shadow: 0 10px 28px rgba(0,0,0,.06); overflow:hidden; cursor:pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0,0,0,.12); }
     .card .ph{ aspect-ratio: 16/9; background:linear-gradient(135deg,#ffe6e1,#ffd1ca); display:flex; align-items:center; justify-content:center; color:#b07164; font-weight:900 }
     .card .bd{ padding:.8rem .9rem 1rem }
+    .card-link{ text-decoration: none; color: inherit; display: block; }
     .card .tt{ margin:.1rem 0 .35rem; font-weight:800 }
     .card .meta{ color:var(--muted); font-size:.85rem }
     .tag{ display:inline-block; margin:.25rem .35rem 0 0; font-size:.72rem; color:#5a453f; background:rgba(var(--base-rgb), .22); border:1px solid rgba(var(--base-rgb), .55); padding:.08rem .5rem; border-radius:999px }

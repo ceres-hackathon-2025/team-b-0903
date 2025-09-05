@@ -186,7 +186,7 @@ function renderStars($score) {
     @include('partials.header')
     <div class="container">
         <header class="page-header">
-            <h1 class="page-title"><?= $prefecture ?>のデートスポット一覧</h1>
+                <h1 class="page-title">{{ $prefecturename }}のデートスポット一覧</h1>
         </header>
         
         <main>
@@ -195,7 +195,7 @@ function renderStars($score) {
                     <a href="{{ route('posts.byPlaceWithPrefecture', ['place' => $place['id']]) }}" class="place-card"> <!-- # TODO -->
                         <div class="card-content">
                             <div class="image-section">
-                                <img src="{{ asset($place['image_pass']) }}" 
+                                <img src="{{ asset($place['img_path']) }}" 
                                      class="place-image" 
                                      alt="<?= htmlspecialchars($place['name']) ?>">
                             </div>
