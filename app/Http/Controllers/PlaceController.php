@@ -12,8 +12,9 @@ class PlaceController extends Controller
     public function indexByPrefecture($prefecture)
     {
         $prefecturename = Prefecture::select('name')->where('id', $prefecture)->firstOrFail();
+        $prefectures = Prefecture::all();
         $places = Place::where('prefecture_id', $prefecture)->get();
-        return view('places', compact('places', 'prefecturename'));
+        return view('places', compact('places', 'prefecturename', 'prefectures'));
     }
 
 }

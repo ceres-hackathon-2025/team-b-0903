@@ -29,12 +29,7 @@
     background: url("{{ asset('images/home.png') }}") center/cover no-repeat #eee;
     box-shadow: 0 24px 50px rgba(0,0,0,.12);
     }
-    /* 上に薄いグラデ、下に濃いめのグラデで文字を読みやすく */
-    .hero::before{
-      content:""; position:absolute; inset:0;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.15) 35%, rgba(0,0,0,.28) 75%, rgba(0,0,0,.35));
-    }
+
     .hero-inner{
     position: relative;
     z-index: 1;
@@ -106,20 +101,6 @@
     <!-- ========= 画像 + 検索 ========= -->
     <section class="hero">
       <div class="hero-inner">
-        <div class="search-card">
-          <form class="search-form" id="searchForm">
-            <div class="f f-loc"><span>奈良限定</span></div>
-            <div class="f"><input id="q" name="q" type="text" placeholder="例：鹿、夜景、映える" autocomplete="off"></div>
-            <div class="f">
-              <select id="cat" name="cat" aria-label="カテゴリ">
-                <option value="">カテゴリを選択</option>
-                <option>お寺</option><option>遊園地</option><option>公園</option>
-                <option>美術館</option><option>カフェ</option><option>夜景</option><option>雨でもOK</option>
-              </select>
-            </div>
-            <button class="btn" type="submit">検索</button>
-          </form>
-        </div>
       </div>
     </section>
 

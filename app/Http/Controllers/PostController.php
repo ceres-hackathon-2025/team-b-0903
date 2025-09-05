@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Prefecture;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,9 +69,11 @@ class PostController extends Controller
         public function indexByPlace($place)
         {
             $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
+            $prefectures = Prefecture::all();
             return view('posts', [
                 'posts' => $posts,
-                'place_id' => $place
+                'place_id' => $place,
+                'prefectures' => $prefectures
             ]);
         }
         // 都道府県ごとの観光地→投稿一覧
@@ -92,8 +95,9 @@ class PostController extends Controller
     {
         // 投稿作成フォーム表示
         $place_name = Place::where('id', $place_id)->value("name");
-        $user_id = Auth::id();
-        return view('create', compact('place_name', 'place_id', 'user_id'));
+        $prefectures = Prefecture::all();
+        $user_id = Auth::id();      
+        return view('create', compact('place_name', 'place_id', 'user_id', 'prefectures'));
     }
 
     /**
@@ -129,7 +133,8 @@ class PostController extends Controller
     {
     // 投稿詳細表示
     $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
-    return view('posts', compact('post'));
+    $prefectures = Prefecture::all();
+    return view('posts', compact('post', 'prefectures'));
     }
 
     /**

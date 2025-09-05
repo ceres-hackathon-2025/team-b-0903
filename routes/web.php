@@ -7,7 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 require __DIR__.'/auth.php';
 
-
+// 口コミ作成画面
 Route::get('/create/{place_id}', [PostController::class, "create"] )->name('posts.create');
 Route::post('/', [PostController::class, "store"] )->name('posts.store');
 
@@ -25,13 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
 // 投稿一覧
 Route::get('/posts', function () {
     return view('posts');
 });
-
 
 // 都道府県ごとの観光地一覧
 Route::get('/prefectures/{prefecture}', [PlaceController::class, 'indexByPrefecture'])->name('places.byPrefecture');
@@ -47,11 +44,8 @@ Route::get('/{place}/create', function ($place) {
 //投稿詳細
 Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.showByPlace');
 
-
 // 投稿詳細から投稿者だけが投稿編集
 Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->middleware('can:update,post')->name('posts.edit');
-
-
 
 
 
