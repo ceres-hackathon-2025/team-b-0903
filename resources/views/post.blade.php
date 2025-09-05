@@ -25,6 +25,12 @@
 
     .main-content{ max-width: 700px; margin: 0 auto; padding: 0 1rem; }
 
+    .card-footer{ padding:1rem 1.25rem 1.25rem; display:flex; gap:.75rem; justify-content:flex-end; align-items:center }
+
+
+    .btn{ appearance:none; border:0; cursor:pointer; padding:.8rem 1.1rem; border-radius:12px; font-weight:700; transition:transform .06s, filter .15s, box-shadow .15s }
+    .btn-ghost{ background:transparent; color:var(--base-strong); border:1px solid rgba(var(--base-rgb), .55) }
+
     .post-card{ background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: var(--radius); box-shadow: 0 10px 28px rgba(0,0,0,.06); overflow: hidden; }
     .post-header{ padding: 1.2rem; border-bottom: 1px solid rgba(0,0,0,.08); }
     .post-title{ font-size: 1.5rem; font-weight: 800; margin: 0 0 .5rem; }
@@ -84,10 +90,16 @@
             </span>
           </div>
 
+          <div class="card-footer">
+            <a href="{{ route('posts.byPlaceWithPrefecture', ['place' => request('place_id', $postPayload['place_id'] ?? '')]) }}" class="btn btn-ghost">投稿一覧に戻る</a>
+            @if (Auth::id() === ($postPayload['user_id'] ?? null))
+              <a href="{{ route('posts.edit', $postPayload['id']) }}" class="btn btn-ghost">編集</a>
+            @endif
+          </div>
+
           <footer class="post-footer">
             <span>投稿者: {{ $postPayload['user'] ?? '名無し' }}</span>
             <span>投稿日: {{ $postPayload['date'] ?? '' }}</span>
-            <a href="{{ route('posts.byPlaceWithPrefecture', ['place' => request('place_id', $postPayload['place_id'] ?? '')]) }}" class="btn btn-ghost">投稿一覧に戻る</a>
           </footer>
         </article>
       </main>

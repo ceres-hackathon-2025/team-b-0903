@@ -45,9 +45,14 @@ Route::get('/{place}/create', function ($place) {
 //投稿詳細
 Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
+
 // 投稿詳細から投稿者だけが投稿編集
 Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+// 投稿更新（編集フォーム送信）
+Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
 
+// 投稿削除
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
 
 
