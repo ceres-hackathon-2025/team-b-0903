@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use App\Models\Place;
 
 class PostController extends Controller
 {
@@ -84,6 +85,16 @@ class PostController extends Controller
         }
     // ...existing code...
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create($place_id)
+    {
+        // 投稿作成フォーム表示
+        $place_name = Place::where('id', $place_id)->value("name");
+        $user_id = Auth::id();
+        return view('create', compact('place_name', 'place_id', 'user_id'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -96,7 +107,7 @@ class PostController extends Controller
             'place_id' => 'required|exists:places,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'recommend' => 'nullable|boolean',
+            'recommend' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validated['like_count'] = 0;
@@ -108,7 +119,7 @@ class PostController extends Controller
         }
 
     $post = Post::create($validated);
-        return redirect()->route('posts.show', $post->id)->with('success', '投稿を作成しました');
+        return redirect()->route('home', $post->id)->with('success', '投稿を作成しました');
     }
 
     /**

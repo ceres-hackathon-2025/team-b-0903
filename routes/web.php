@@ -1,14 +1,31 @@
 <?php
-
-
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
+require __DIR__.'/auth.php';
+
+
+Route::get('/create/{place_id}', [PostController::class, "create"] )->name('posts.create');
+Route::post('/', [PostController::class, "store"] )->name('posts.store');
+
+// 場所一覧
+Route::get('/places', function () {
+    return view('places');
+});
 
 // ホーム画面
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
 
 // 投稿一覧
 Route::get('/posts', function () {
@@ -40,11 +57,11 @@ Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->middleware('c
 
 
 
+
 // タグごとの投稿一覧
 //Route::get('/tags/{tag}/posts', [PostController::class, 'indexByTag'])->name('posts.byTag');
 
 // タグ経由で観光地ごとの投稿一覧
 //Route::get('/tags/{tag}/places/{place}', [PostController::class, 'indexByPlaceWithTag'])->name('posts.byPlaceWithTag');
-
 
 
