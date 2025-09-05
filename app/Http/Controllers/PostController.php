@@ -71,10 +71,17 @@ class PostController extends Controller
         {
             $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
             $prefectures = Prefecture::all();
+            $place_name = Place::where('id', $place)->value('name');
+            $place_imgpath = Place::where('id', $place)->value('img_path');
+            $place_recommend_avg = Place::where('id', $place)->value('recommend_average');
+
             return view('posts', [
                 'posts' => $posts,
                 'place_id' => $place,
-                'prefectures' => $prefectures
+                'place_name' => $place_name,
+                'place_img_path' => $place_imgpath,
+                'prefectures' => $prefectures,
+                'place_recommend_avg' => $place_recommend_avg
             ]);
         }
         // 都道府県ごとの観光地→投稿一覧
