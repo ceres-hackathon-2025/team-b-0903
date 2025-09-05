@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($place_name) ?> - レビュー</title>
+    <title>{{ $place_name }} - レビュー</title>
     <style>
         :root{
             --base-rgb: 234,206,202;
@@ -117,7 +117,7 @@
     <div class="container">
         <!-- ページタイトル -->
         <header class="page-title">
-            <h1><?= htmlspecialchars($place_name) ?></h1>
+            <h1>{{ $place_name }}</h1>
         </header>
         
         <div class="main-content">
@@ -125,14 +125,14 @@
             <section class="hero-section">
                 <!-- 場所の画像 -->
                 <div class="place-image">
-                    <img src="{{ asset($place_img_path) }}" alt="<?= htmlspecialchars($place_name) ?>">
+                    <img src="{{ asset($place_img_path) }}" alt="{{ $place_name }}">
                 </div>
                 
                 <!-- 評価と投稿 -->
                 <div class="place-info">
                     <!-- 平均評価 -->
                     <div class="rating-card">
-                        <div class="rating-score">★<?= number_format($place_recommend_avg, 1) ?></div>
+                        <div class="rating-score">★{{ number_format($place_recommend_avg, 1) }}</div>
                         <div class="rating-label">平均評価</div>
                     </div>
                     
@@ -153,9 +153,9 @@
                 @foreach ($posts as $post)
                 <article class="post-item">
                     <div class="post-header">
-                        <h2 class="post-title"><?= htmlspecialchars($post->title) ?></h2>
+                        <h2 class="post-title">{{ $post->title }}</h2>
                         <div class="post-rating">
-                            <?= $post->recommend ?? '' ?>
+                            {{ $post->recommend ?? '' }}
                         </div>
                     </div>
                     
