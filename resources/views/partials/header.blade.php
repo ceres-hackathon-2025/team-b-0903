@@ -172,6 +172,15 @@
     margin-left: auto;
     display: flex; align-items: center; gap: .5rem;
   }
+  .register-btn{
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: .5rem .9rem; border-radius: 999px; text-decoration: none;
+    font-weight: 700; color:#5a453f;
+    border: 1px solid rgba(var(--base-rgb), .55);
+    background: rgba(var(--base-rgb), .22);
+    transition: background .15s, transform .06s;
+  }
+  .register-btn:hover{ background: rgba(var(--base-rgb), .3); transform: translateY(-1px); }
   .login-btn{
     display: inline-flex; align-items: center; justify-content: center;
     padding: .5rem .9rem; border-radius: 999px; text-decoration: none;
