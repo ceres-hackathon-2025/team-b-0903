@@ -67,14 +67,16 @@ class PostController extends Controller
         // 観光地ごとの投稿一覧（直接）
     public function indexByPlace($place)
     {
+        $placeModel = Place::findOrFail($place);
+
         $posts = Post::where('place_id', $place)->with(['user', 'place', 'like'])->orderBy('created_at', 'desc')->get();
             // $placeが存在しない場合は404を返す
-        $placeModel = Place::findOrFail($place);
+        
         $posts = Post::where('place_id', $placeModel->id)
             ->with(['user', 'place', 'like'])
             ->orderByDesc('created_at')
             ->get();
-            
+
         return view('posts', [
             'posts' => $posts,
             'place_id' => $placeModel->id,
@@ -93,16 +95,6 @@ class PostController extends Controller
     }
     // ...existing code...
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create($place_id)
-    {
-        // 投稿作成フォーム表示
-        $place_name = Place::where('id', $place_id)->value("name");
-        $user_id = Auth::id();
-        return view('create', compact('place_name', 'place_id', 'user_id'));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -115,7 +107,7 @@ class PostController extends Controller
             'place_id' => 'required|exists:places,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'recommend' => 'nullable|integer',
+            'recommend' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validated['like_count'] = 0;
@@ -126,10 +118,8 @@ class PostController extends Controller
             $validated['image_path'] = $imagePath;
         }
 
-
         $post = Post::create($validated);
         return redirect()->route('posts.show', $post->id)->with('success', '投稿を作成しました');
-
     }
 
     /**
