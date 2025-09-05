@@ -1,3 +1,11 @@
+<?php
+function renderStars($score) {
+    $full = floor($score);
+    $half = ($score - $full) >= 0.5 ? 1 : 0;
+    $empty = 5 - $full - $half;
+    return str_repeat('★', $full) . ($half ? '☆' : '') . str_repeat('☆', $empty);
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -158,7 +166,7 @@
                     <div class="post-header">
                         <h2 class="post-title">{{ $post->title }}</h2>
                         <div class="post-rating">
-                            {{ $post->recommend ?? '' }}
+                            <?= renderStars($post->recommend ?? 0) ?>(<?= htmlspecialchars($post->recommend ?? 0) ?>)
                         </div>
                     </div>
                     
