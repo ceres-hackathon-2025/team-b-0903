@@ -192,7 +192,7 @@ function renderStars($score) {
         <main>
             <div class="places-grid">
                 <?php foreach ($places as $place): ?>
-                    <a href="" class="place-card"> <!-- # TODO -->
+                    <a href="{{ route('posts.byPlaceWithPrefecture', ['place' => $place['id']]) }}" class="place-card"> <!-- # TODO -->
                         <div class="card-content">
                             <div class="image-section">
                                 <img src="{{ asset($place['image_pass']) }}" 
