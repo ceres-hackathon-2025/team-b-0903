@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>moddy | 奈良のデートスポット</title>
+  <title>moddy </title>
 
   <style>
     :root{
@@ -123,90 +123,47 @@
       </div>
     </section>
 
+    <!-- 投稿一覧セクション -->
+    <div class="sep"></div>
+    <section class="section" id="posts-list">
+      <h2 class="h2"><span>投稿一覧</span></h2>
+      <div class="grid cols-3">
+        @forelse ($posts as $post)
+          <article class="card">
+            <div class="ph" aria-hidden="true">
+              @if ($post->image_path)
+                <img src="{{ asset('img/' . $post->image_path) }}" alt="{{ $post->title }}" style="width:100%;height:auto;object-fit:cover;">
+              @else
+                画像なし
+              @endif
+            </div>
+            <div class="bd">
+              <div class="tt">{{ $post->title }}</div>
+              <div class="meta">{{ $post->created_at->format('Y/m/d') }} ・ 投稿者: {{ $post->user->name ?? '匿名' }}</div>
+              <p style="margin:.35rem 0 0">{{ $post->body }}</p>
+              @if ($post->tags)
+                <div style="margin-top:.35rem">
+                  @foreach ($post->tags as $tag)
+                    <span class="tag">{{ $tag->name }}</span>
+                  @endforeach
+                </div>
+              @endif
+            </div>
+          </article>
+        @empty
+          <p>投稿がありません。</p>
+        @endforelse
+      </div>
+    </section>
+
     <!-- （任意）以下は前回同様の固定値セクション -->
     <div class="sep"></div>
 
-    <section class="section" id="recommend">
-      <h2 class="h2"><span>おすすめレビュー</span><span class="pill">奈良</span></h2>
-      <div class="grid cols-3" id="reviewsGrid"></div>
-    </section>
-
-    <div class="sep"></div>
-
-    <section class="section" id="byCategory">
-      <h2 class="h2"><span>カテゴリから探す</span><span class="pill">お寺 / 遊園地 / 公園 …</span></h2>
-      <div class="grid cols-4" id="spotsGrid"></div>
-    </section>
+  <!-- 固定データ部分は削除 -->
   </div>
 
   <script>
-    /* 固定データ（奈良） */
-    const spots = [
-      { id:1, name:'奈良公園', town:'奈良市', cat:'公園', tags:['鹿','広い','散策'], img:'奈良公園' },
-      { id:2, name:'東大寺', town:'奈良市', cat:'お寺', tags:['大仏','世界遺産'], img:'東大寺' },
-      { id:3, name:'春日大社', town:'奈良市', cat:'お寺', tags:['灯篭','神社'], img:'春日大社' },
-      { id:4, name:'平城宮跡歴史公園', town:'奈良市', cat:'公園', tags:['歴史','芝生'], img:'平城宮跡' },
-      { id:5, name:'若草山', town:'奈良市', cat:'夜景', tags:['夜景','ドライブ'], img:'若草山' },
-      { id:6, name:'ならまちカフェめぐり', town:'奈良市', cat:'カフェ', tags:['古民家','映え'], img:'ならまち' },
-      { id:7, name:'生駒山上遊園地', town:'生駒市', cat:'遊園地', tags:['絶景','観覧車'], img:'生駒山上' },
-      { id:8, name:'奈良県立美術館', town:'奈良市', cat:'美術館', tags:['雨でもOK','静か'], img:'美術館' },
-    ];
-    const reviews = [
-      { id:101, spotId:1, rating:5, body:'鹿と触れ合えて癒やされる。夕方が映える！' },
-      { id:102, spotId:2, rating:4, body:'大仏の迫力に圧倒。周辺の茶屋でほっと一息。' },
-      { id:103, spotId:7, rating:4, body:'観覧車からの眺めが最高。夜は特にロマンチック。' },
-      { id:104, spotId:5, rating:5, body:'若草山からの夜景は圧巻。車ならアクセスも楽。' },
-      { id:105, spotId:6, rating:4, body:'ならまちの古民家カフェでまったりデート。' },
-      { id:106, spotId:8, rating:4, body:'雨でも楽しめる静かな美術館デート。' },
-    ];
-
-    const reviewsGrid = document.getElementById('reviewsGrid');
-    const spotsGrid = document.getElementById('spotsGrid');
-
-    const CardSpot = s => `
-      <article class="card">
-        <div class="ph" aria-hidden="true">${s.img}</div>
-        <div class="bd">
-          <div class="tt">${s.name}</div>
-          <div class="meta">${s.town} ・ <span class="pill">${s.cat}</span></div>
-          <div style="margin-top:.35rem">${(s.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-        </div>
-      </article>
-    `;
-    const CardReview = r => {
-      const s = spots.find(x=>x.id===r.spotId);
-      return `
-        <article class="card">
-          <div class="ph" aria-hidden="true">${s ? s.img : 'スポット'}</div>
-          <div class="bd">
-            <div class="tt">${s ? s.name : 'スポット'}</div>
-            <div class="meta">評価：${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)} (${r.rating}.0)</div>
-            <p style="margin:.35rem 0 0">${r.body}</p>
-          </div>
-        </article>
-      `;
-    };
-
-    const renderReviews = items => reviewsGrid.innerHTML = items.slice(0,3).map(CardReview).join('');
-    const renderSpots = items => spotsGrid.innerHTML = items.map(CardSpot).join('');
-
-    // 初期描画
-    renderReviews(reviews);
-    renderSpots(spots);
-
-    // 検索フォーム（ヒーロー内）
-    document.getElementById('searchForm').addEventListener('submit', e=>{
-      e.preventDefault();
-      const kw = (document.getElementById('q').value||'').trim();
-      const c  = (document.getElementById('cat').value||'').trim();
-      const res = spots.filter(s=>{
-        if (c && s.cat !== c) return false;
-        if (!kw) return true;
-        return [s.name, s.town, ...(s.tags||[])].join(' ').includes(kw);
-      });
-      renderSpots(res);
-      document.getElementById('byCategory').scrollIntoView({behavior:'smooth', block:'start'});
-    });
+  // 固定データ・描画処理は削除しました。
   </script>
 </body>
 </html>
