@@ -94,13 +94,28 @@ function renderStars($score) {
             border-radius: var(--radius); 
             padding: 1.5rem; 
             margin-bottom: 1.5rem; 
-            box-shadow: 0 10px 28px rgba(0,0,0,.06); 
+            box-shadow: 0 10px 28px rgba(0,0,0,.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .post-item:hover{ 
+            transform: translateY(-2px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,.12);
         }
         .post-header{ display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem; }
         .post-title{ font-size: 1.2rem; font-weight: 800; margin: 0; }
         .post-rating{ color: #ffc107; font-weight: 600; }
         .post-image{ width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; }
         .post-content{ margin-bottom: 1rem; line-height: 1.6; }
+        .post-clickable-area{
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .post-clickable-area:hover{ 
+            text-decoration: none;
+            color: inherit;
+        }
         .post-actions{ display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
         .like-btn{ 
             background: none; 
@@ -161,22 +176,23 @@ function renderStars($score) {
                 <h2 class="h2"><span>投稿一覧</span></h2>
                 
                 @foreach ($posts as $post)
-                <a href="{{ route('posts.show', $post->id) }}" class="card-link">
                 <article class="post-item">
-                    <div class="post-header">
-                        <h2 class="post-title">{{ $post->title }}</h2>
-                        <div class="post-rating">
-                            <?= renderStars($post->recommend ?? 0) ?>(<?= htmlspecialchars($post->recommend ?? 0) ?>)
+                    <a href="{{ route('posts.show', $post->id) }}" class="post-clickable-area">
+                        <div class="post-header">
+                            <h2 class="post-title">{{ $post->title }}</h2>
+                            <div class="post-rating">
+                                <?= renderStars($post->recommend ?? 0) ?>(<?= htmlspecialchars($post->recommend ?? 0) ?>)
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div>
-                        <img src="{{ asset($post->img_path) }}" 
-                             class="post-image" 
-                             alt="レビュー画像">
-                    </div>
-                    
-                    <div class="post-content">{{ $post->content }}</div>
+                        
+                        <div>
+                            <img src="{{ asset($post->img_path) }}" 
+                                 class="post-image" 
+                                 alt="レビュー画像">
+                        </div>
+                        
+                        <div class="post-content">{{ $post->content }}</div>
+                    </a>
                     
                     <div class="post-actions">
                         <button class="like-btn" 
@@ -194,7 +210,6 @@ function renderStars($score) {
                         <small>投稿日: {{ $post->created_at->format('Y-m-d') }}</small>
                     </div>
                 </article>
-                </a>
                 @endforeach
             </section>
         </div>
