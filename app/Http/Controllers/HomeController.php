@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Prefecture;
-use App\Models\Place;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -12,7 +12,8 @@ class HomeController extends Controller
     {
         // 都道府県一覧を取得してhomeビューに渡す
         $prefectures = Prefecture::all();
-        $places = Place::all();
-        return view('home', compact('prefectures', 'places'));
+        $post = Post::all();
+    
+        return view('home', compact('prefectures', 'post'));
     }
 }
