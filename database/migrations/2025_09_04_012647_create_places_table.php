@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('prefecture_id')->constrained();
             $table->integer('recommend_average');
+            $table->string('img_path')->nullable();
             $table->timestamps();
         });
     }
