@@ -186,7 +186,7 @@ function renderStars($score) {
     @include('partials.header')
     <div class="container">
         <header class="page-header">
-            <h1 class="page-title"><?= $prefecture ?>のデートスポット一覧</h1>
+                <h1 class="page-title">{{ $prefecturename }}のデートスポット一覧</h1>
         </header>
         
         <main>
