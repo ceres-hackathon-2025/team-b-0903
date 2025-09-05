@@ -1,6 +1,7 @@
 <?php
 $prefecture = $prefecturename; // コントローラーから渡された都道府県名
 $places = $places;
+$img_id = "01"; // TODO
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -8,45 +9,168 @@ $places = $places;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $prefecture ?>のデートスポット一覧</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'GenEiMGothic2-Bold';
-            src: url('./font/GenEiMGothic2-Bold.ttf') format('truetype');
+        :root{
+            --base-rgb: 234,206,202;
+            --base: rgb(var(--base-rgb));
+            --base-strong: rgb(199,149,141);
+            --ink:#2b2726; --muted:#6b6462; --paper:#fff;
+            --ring: rgba(var(--base-rgb), .55);
+            --maxw: 1100px; --radius: 16px;
+        }
+        body{ 
+            margin:0; 
+            color:var(--ink); 
+            font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif; 
+            background:#fffdfa; 
         }
 
-        body {
-            font-family: 'GenEiMGothic2-Bold', sans-serif;
+        /* コンテナ */
+        .container{ max-width:var(--maxw); margin:0 auto; padding: 1rem; }
+
+        /* ヘッダー */
+        .page-header{
+            text-align: center;
+            margin: 1.5rem 0 2rem;
+        }
+        .page-title{
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--ink);
+            margin: 0;
         }
 
-        .place-card {
-            transition: transform 0.2s;
-            cursor: pointer;
+        /* カードグリッド - 中央寄せで幅を制限 */
+        .places-grid{
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .place-card:hover {
+
+        /* カード */
+        .place-card{
+            border: 1px solid rgba(0,0,0,.08);
+            border-radius: var(--radius);
+            background: #fff;
+            box-shadow: 0 10px 28px rgba(0,0,0,.06);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .place-card:hover{
             transform: translateY(-5px);
-        }
-        .category-badge {
-            font-size: 0.75rem;
-        }
-        .card-link {
+            box-shadow: 0 15px 40px rgba(0,0,0,.12);
             text-decoration: none;
             color: inherit;
         }
-        .card-link:hover {
-            color: inherit;
-            text-decoration: none;
+
+        .card-content{
+            display: flex;
+            align-items: stretch;
         }
-        .place-image {
+
+        /* 画像部分 */
+        .image-section{
+            flex: 0 0 280px;
+            position: relative;
+        }
+        .place-image{
             width: 100%;
-            height: 250px;
+            height: 200px;
             object-fit: cover;
             object-position: center;
-            border-radius: 0.375rem 0 0 0.375rem;
         }
-        .image-container {
-            height: 250px;
-            overflow: hidden;
+
+        /* テキスト部分 */
+        .content-section{
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .place-title{
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0 0 0.8rem;
+            color: var(--ink);
+        }
+
+        .place-rating{
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffb300);
+            color: #333;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px){
+            .card-content{
+                flex-direction: column;
+            }
+            .image-section{
+                flex: none;
+            }
+            .place-image{
+                height: 180px;
+            }
+            .content-section{
+                padding: 1rem;
+            }
+            .page-title{
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ページネーション */
+        .pagination-wrapper{
+            margin: 3rem 0 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination{
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .page-link{
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(var(--base-rgb), .55);
+            background: rgba(var(--base-rgb), .22);
+            color: #5a453f;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .page-link:hover{
+            background: var(--base);
+            text-decoration: none;
+            color: #5a453f;
+        }
+        .page-link.active{
+            background: var(--base-strong);
+            color: #fff;
+        }
+        .page-link.disabled{
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* フッター */
+        .footer{
+            margin-top: 3rem;
+            padding: 2rem 0;
+            background: rgba(var(--base-rgb), .1);
+            text-align: center;
+            color: var(--muted);
         }
     </style>
 </head>
@@ -54,73 +178,49 @@ $places = $places;
      {{-- ヘッダー呼び出し --}}
     @include('partials.header')
     <div class="container">
-        <header class="my-4 text-center">
-            <h1 class="display-4"><?= $prefecture ?>のデートスポット一覧</h1>
+        <header class="page-header">
+            <h1 class="page-title"><?= $prefecture ?>のデートスポット一覧</h1>
         </header>
         
         <main>
-            <div class="row">
+            <div class="places-grid">
                 <?php foreach ($places as $place): ?>
-                <div class="col-12 mb-3">
-                    <a href="<?= $place['link'] ?>" class="card-link"> <!-- # TODO -->
-                        <div class="card place-card">
-                            <div class="row g-0">
-                                <div class="col-md-3">
-                                    <div class="image-container">
-                                        <img src="./img/test<?= $place['image_id'] ?>.jpg" 
-                                             class="place-image" 
-                                             alt="<?= htmlspecialchars($place['name']) ?>">
-                                    </div>
+                    <a href="" class="place-card"> <!-- # TODO -->
+                        <div class="card-content">
+                            <div class="image-section">
+                                <img src="{{ asset('img/test' . $img_id . '.jpg') }}" 
+                                     class="place-image" 
+                                     alt="<?= htmlspecialchars($place['name']) ?>">
+                            </div>
+                            <div class="content-section">
+                                <div>
+                                    <h2 class="place-title"><?= htmlspecialchars($place['name']) ?></h2>
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h2 class="card-title"><?= htmlspecialchars($place['name']) ?></h5>
-                                        </div>
-                                        <div class="mb-3">
-                                            <span class="badge bg-primary bg-color-blue text-white category-badge fs-6">#<?= htmlspecialchars($place['tag']) ?></span>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="badge rounded-pill bg-warning text-dark fs-4"><?= htmlspecialchars($place['rating']) ?></span>
-                                            <small class="text-muted fs-6">(<?= number_format($place['countreviews']) ?>件の投稿)</small>
-                                        </div>
-                                    </div>
+                                <div>
+                                    <span class="place-rating"><?= htmlspecialchars($place['recommend_average']) ?></span>
                                 </div>
                             </div>
                         </div>
                     </a>
-                </div>
                 <?php endforeach; ?>
             </div>
 
-            <div class="text-center mt-4">
+            <!-- <div class="pagination-wrapper">
                 <nav>
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <span class="page-link">前へ</span>
-                        </li>
-                        <li class="page-item active">
-                            <span class="page-link">1</span>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">次へ</a>
-                        </li>
-                    </ul>
+                    <div class="pagination">
+                        <span class="page-link disabled">前へ</span>
+                        <span class="page-link active">1</span>
+                        <a class="page-link" href="#">2</a>
+                        <a class="page-link" href="#">3</a>
+                        <a class="page-link" href="#">次へ</a>
+                    </div>
                 </nav>
-            </div>
+            </div> -->
         </main>
         
-        <footer class="mt-5 py-4 bg-light text-center">
+        <!-- <footer class="footer">
             <p>&copy; 2024 奈良県観光ガイド. All rights reserved.</p>
-        </footer>
+        </footer> -->
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
