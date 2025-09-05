@@ -29,43 +29,45 @@
                     <section>
                         <h2 class="h4 mb-3">投稿一覧</h2>
                         @foreach ($posts as $post)
-                        <article class="card mb-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h2 class="card-title h5">{{ $post->title }}</h2>
-                                    <div class="text-warning">
-                                        {{ $post->rating ?? '' }}
+                        <a href="{{ route('posts.show', $post->id) }}" class="card-link">
+                            <article class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h2 class="card-title h5">{{ $post->title }}</h2>
+                                        <div class="text-warning">
+                                            {{ $post->rating ?? '' }}
+                                        </div>
                                     </div>
+                                    <!-- 画像を上に配置 -->
+                                    @if ($post->image_path)
+                                    <div class="mb-3">
+                                        <img src="{{ asset($post->image_path) }}" 
+                                            class="img-fluid rounded w-100" 
+                                            style="height: 200px; object-fit: cover;" 
+                                            alt="レビュー画像">
+                                    </div>
+                                    @endif
+                                    <!-- レビュー内容を下に配置 -->
+                                    <p class="card-text">{{ $post->content }}</p>
+                                    <!-- ハート形ボタンとお気に入り数 -->
+                                    <div class="d-flex align-items-center mb-2">
+                                        <button class="btn btn-sm me-2 like-btn" 
+                                                style="border-radius:50%; padding:0; width:32px; height:32px;"
+                                                data-liked="{{ $post->like && $post->like->contains('user_id', Auth::id()) ? 'true' : 'false' }}"
+                                                data-count="{{ $post->like ? $post->like->count() : 0 }}">
+                                            <img src="{{ $post->like && $post->like->contains('user_id', Auth::id()) ? '/images/heart_red.png' : '/images/heart_white.png' }}" 
+                                                alt="いいね" 
+                                                style="width:32px; height:32px; object-fit:contain;">
+                                        </button>
+                                        <span class="text-muted fs-6">いいね <span class="like-count">{{ $post->like ? $post->like->count() : 0 }}</span></span>
+                                    </div>
+                                    <footer class="text-muted d-flex justify-content-between mt-2">
+                                        <small>投稿者: {{ $post->user->name ?? '' }}</small>
+                                        <small>投稿日: {{ $post->created_at->format('Y-m-d') }}</small>
+                                    </footer>
                                 </div>
-                                <!-- 画像を上に配置 -->
-                                @if ($post->image_path)
-                                <div class="mb-3">
-                                    <img src="{{ asset($post->image_path) }}" 
-                                         class="img-fluid rounded w-100" 
-                                         style="height: 200px; object-fit: cover;" 
-                                         alt="レビュー画像">
-                                </div>
-                                @endif
-                                <!-- レビュー内容を下に配置 -->
-                                <p class="card-text">{{ $post->content }}</p>
-                                <!-- ハート形ボタンとお気に入り数 -->
-                                <div class="d-flex align-items-center mb-2">
-                                    <button class="btn btn-sm me-2 like-btn" 
-                                            style="border-radius:50%; padding:0; width:32px; height:32px;"
-                                            data-liked="{{ $post->like && $post->like->contains('user_id', Auth::id()) ? 'true' : 'false' }}"
-                                            data-count="{{ $post->like ? $post->like->count() : 0 }}">
-                                        <img src="{{ $post->like && $post->like->contains('user_id', Auth::id()) ? '/images/heart_red.png' : '/images/heart_white.png' }}" 
-                                             alt="いいね" 
-                                             style="width:32px; height:32px; object-fit:contain;">
-                                    </button>
-                                    <span class="text-muted fs-6">いいね <span class="like-count">{{ $post->like ? $post->like->count() : 0 }}</span></span>
-                                </div>
-                                <footer class="text-muted d-flex justify-content-between mt-2">
-                                    <small>投稿者: {{ $post->user->name ?? '' }}</small>
-                                    <small>投稿日: {{ $post->created_at->format('Y-m-d') }}</small>
-                                </footer>
-                            </div>
-                        </article>
+                            </article>
+                        </a>
                         @endforeach
                     </section>
                 </div>

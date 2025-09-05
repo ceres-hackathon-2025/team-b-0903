@@ -130,13 +130,50 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
+    // public function show(string $id)
+    // {
+    // $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
+    // $prefectures = Prefecture::all();
+    // return view('post', compact('post', 'prefectures'));
+    // }
     public function show(string $id)
     {
-    // 投稿詳細表示
-    $post = Post::with(['user', 'place', 'like'])->findOrFail($id);
-    $prefectures = Prefecture::all();
-    return view('post', compact('post', 'prefectures'));
+        // 都道府県（ヘッダー用）
+        $prefectures = \App\Models\Prefecture::all();
+
+        // リレーションだけを eager load（user, place, like は Model のメソッド名）
+        $post = \App\Models\Post::with(['user', 'place', 'like'])->findOrFail($id);
+
+        // recommend(1-5) を ★★★☆☆ に整形
+        $score = (int) ($post->recommend ?? 0);
+        $score = max(0, min(5, $score));
+        $stars = str_repeat('★', $score) . str_repeat('☆', 5 - $score);
+
+        // 画像パス（image_path カラム想定。なければ noimage）
+        $imagePath = $post->image_path
+            ? asset('storage/' . ltrim($post->image_path, '/'))
+            : asset('images/noimage.png');
+
+        // ビュー向けペイロード
+        $payload = [
+            'title'      => (string) ($post->title ?? ''),
+            'recommend'  => $stars,
+            'text'       => (string) ($post->content ?? ''),
+            'user'       => optional($post->user)->name ?? '名無し',   // ← user リレーション
+            'place'      => optional($post->place)->name ?? '不明',     // ← place リレーション
+            'date'       => optional($post->created_at)->format('Y年n月j日') ?? '',
+            'image_path' => $imagePath,
+            'count_like' => (int) ($post->like_count ?? $post->like()->count()),
+        ];
+
+        // Blade へ渡す
+        return view('post', [
+            'postPayload' => $payload,
+            'prefectures' => $prefectures,
+        ]);
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.

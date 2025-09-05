@@ -110,27 +110,29 @@
       <h2 class="h2"><span>投稿一覧</span></h2>
       <div class="grid cols-3">
         @forelse ($posts as $post)
-          <article class="card">
-            <div class="ph" aria-hidden="true">
-              @if ($post->image_path)
-                <img src="{{ asset('img/' . $post->image_path) }}" alt="{{ $post->title }}" style="width:100%;height:auto;object-fit:cover;">
-              @else
-                画像なし
-              @endif
-            </div>
-            <div class="bd">
-              <div class="tt">{{ $post->title }}</div>
-              <div class="meta">{{ $post->created_at->format('Y/m/d') }} ・ 投稿者: {{ $post->user->name ?? '匿名' }}</div>
-              <p style="margin:.35rem 0 0">{{ $post->body }}</p>
-              @if ($post->tags)
-                <div style="margin-top:.35rem">
-                  @foreach ($post->tags as $tag)
-                    <span class="tag">{{ $tag->name }}</span>
-                  @endforeach
-                </div>
-              @endif
-            </div>
-          </article>
+          <a href="{{ route('posts.show', $post->id) }}" class="card-link">
+            <article class="card">
+              <div class="ph" aria-hidden="true">
+                @if ($post->image_path)
+                  <img src="{{ asset('img/' . $post->image_path) }}" alt="{{ $post->title }}" style="width:100%;height:auto;object-fit:cover;">
+                @else
+                  画像なし
+                @endif
+              </div>
+              <div class="bd">
+                <div class="tt">{{ $post->title }}</div>
+                <div class="meta">{{ $post->created_at->format('Y/m/d') }} ・ 投稿者: {{ $post->user->name ?? '匿名' }}</div>
+                <p style="margin:.35rem 0 0">{{ $post->body }}</p>
+                @if ($post->tags)
+                  <div style="margin-top:.35rem">
+                    @foreach ($post->tags as $tag)
+                      <span class="tag">{{ $tag->name }}</span>
+                    @endforeach
+                  </div>
+                @endif
+              </div>
+            </article>
+          </a>
         @empty
           <p>投稿がありません。</p>
         @endforelse
