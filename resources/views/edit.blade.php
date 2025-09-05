@@ -114,6 +114,11 @@
             <a href="{{ route('posts.show', $post->id) }}" class="btn btn-ghost">詳細に戻る</a>
             <button type="reset" class="btn btn-ghost">リセット</button>
             <button id="submitBtn" type="submit" class="btn btn-primary">更新</button>
+            <form method="POST" action="{{ route('posts.destroy', $post->id) }}" style="display:inline; margin-left:10px;" onsubmit="return confirm('本当に削除しますか？');">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn btn-ghost" style="color:#d00; border-color:#d00;" onclick="return confirm('本当にいいですか？');">削除</button>
+            </form>
           </div>
         </form>
       </div>

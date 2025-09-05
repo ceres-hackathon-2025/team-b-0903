@@ -51,6 +51,8 @@ Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.e
 // 投稿更新（編集フォーム送信）
 Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
 
+// 投稿削除
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
 
 

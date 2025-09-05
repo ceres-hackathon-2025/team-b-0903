@@ -196,10 +196,11 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        // 投稿削除
-        $post = Post::findOrFail($id);
-        $post->delete();
-        return redirect()->route('posts.index')->with('success', '投稿を削除しました');
+    // 投稿削除
+    $post = Post::findOrFail($id);
+    $place_id = $post->place_id;
+    $post->delete();
+    return redirect()->route('posts.byPlaceWithPrefecture', ['place' => $place_id])->with('success', '投稿を削除しました');
     }
 
 
