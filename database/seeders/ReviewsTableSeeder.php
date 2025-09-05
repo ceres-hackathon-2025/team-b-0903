@@ -48,6 +48,7 @@ class ReviewsTableSeeder extends Seeder
                     'content' => $review['content'],
                     'recommend' => $review['recommend'],
                     'like_count' => $review['like_count'],
+                        'image_path' => $review['image_path'],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

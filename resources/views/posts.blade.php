@@ -1,3 +1,26 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>投稿一覧</h1>
+    <div class="row">
+        @foreach($posts as $post)
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    @if($post->image_path)
+                        <img src="{{ asset('img/' . $post->image_path) }}" class="card-img-top" alt="投稿画像">
+                    @endif
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $post->title }}</h5>
+                        <p class="card-text">{{ $post->body }}</p>
+                        <p class="card-text"><small class="text-muted">{{ $post->created_at }}</small></p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
+@endsection
 <?php
 $name = '東大寺';
 $img_id = './img/test01.jpg';
